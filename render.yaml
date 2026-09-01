@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: valora-tu-carro-ai
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: BOLD_IDENTITY_KEY
+        sync: false
+      - key: BOLD_SECRET_KEY
+        sync: false
+      - key: BOLD_WEBHOOK_SECRET
+        sync: false
+      - key: PUBLIC_URL
+        sync: false
+      - key: ADMIN_TOKEN
+        generateValue: true
+      - key: DATA_DIR
+        value: /var/data
+    disk:
+      name: datos
+      mountPath: /var/data
+      sizeGB: 1

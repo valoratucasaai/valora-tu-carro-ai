@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /checkout/
+Disallow: /pago/
+Sitemap: https://valoratucarro.ai/sitemap.xml

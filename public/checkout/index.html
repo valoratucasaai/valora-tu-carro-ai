@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pedir la valoración · Valora tu carro.AI</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0a0c0e">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/fonts.css">
+<script src="https://checkout.bold.co/library/boldPaymentButton.js"></script>
+<style>
+  :root { --bg:#0a0c0e; --panel:rgba(13,16,19,.74); --line:rgba(240,244,248,.2); --txt:#eef2f6; --muted:rgba(240,244,248,.6);
+          --h:"Barlow Condensed", system-ui, sans-serif; --b:"Barlow", system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt); font-family:var(--b); font-size:15px; line-height:1.55; }
+  a { color:inherit; }
+  .wrap { max-width:1080px; margin:0 auto; padding:34px 24px 80px; }
+  .top { display:flex; align-items:center; justify-content:space-between; gap:16px; padding-bottom:26px; border-bottom:1px solid rgba(240,244,248,.14); }
+  .brand { display:flex; align-items:center; gap:10px; text-decoration:none; font-family:var(--h); font-size:20px; text-transform:uppercase; letter-spacing:.02em; }
+  .brand i { display:inline-block; width:26px; height:26px; border:2px solid #fff; }
+  h1 { font-family:var(--h); font-weight:600; font-size:clamp(30px,3.4vw,42px); line-height:1.02; margin:34px 0 8px; }
+  .lead { color:var(--muted); max-width:56ch; margin:0 0 30px; }
+  .cols { display:grid; grid-template-columns:1.25fr .9fr; gap:34px; align-items:start; }
+  .card { border:1px solid rgba(240,244,248,.16); background:rgba(6,8,10,.66); padding:22px; }
+  .eyebrow { font-family:var(--h); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:14px; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .full { grid-column:span 2; }
+  label { display:flex; flex-direction:column; gap:6px; }
+  label > span { font-family:var(--h); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
+  input, select, textarea { font-family:var(--b); font-size:15px; padding:11px 12px; border:1px solid var(--line); background:var(--panel); color:var(--txt); width:100%; border-radius:0; }
+  input:focus, select:focus, textarea:focus { outline:none; border-color:#fff; }
+  .seg { display:flex; border:1px solid var(--line); }
+  .seg button { flex:1; font-family:var(--h); font-weight:600; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase;
+                padding:9px 6px; border:0; cursor:pointer; background:transparent; color:var(--txt); }
+  .seg button[aria-pressed="true"] { background:#fff; color:#0a0c0e; }
+  .btn { display:block; width:100%; font-family:var(--h); font-weight:600; font-size:16px; letter-spacing:.06em; text-transform:uppercase;
+         padding:15px 20px; border:0; background:#fff; color:#0a0c0e; cursor:pointer; text-align:center; text-decoration:none; }
+  .btn:hover { background:#c9cdd1; }
+  .btn[disabled] { opacity:.55; cursor:default; }
+  .btn-ghost { background:transparent; color:var(--txt); border:1px solid var(--txt); margin-top:12px; }
+  .btn-ghost:hover { background:rgba(240,244,248,.08); }
+  .fila { display:flex; justify-content:space-between; gap:14px; padding:11px 0; border-bottom:1px solid rgba(240,244,248,.12); font-size:14px; }
+  .fila:last-of-type { border-bottom:0; }
+  .fila b { font-family:var(--h); font-weight:600; }
+  .total { display:flex; justify-content:space-between; align-items:baseline; margin:14px 0 18px; padding-top:14px; border-top:1px solid rgba(240,244,248,.24); }
+  .total span:last-child { font-family:var(--h); font-size:30px; }
+  .err { display:none; margin-top:12px; padding:11px 13px; border:1px solid #ff8a80; color:#ff8a80; font-size:14px; }
+  .err.on { display:block; }
+  .nota { font-size:12.5px; color:var(--muted); margin-top:14px; }
+  .qty { display:flex; align-items:center; gap:0; border:1px solid var(--line); width:max-content; }
+  .qty button { width:38px; height:38px; border:0; background:transparent; color:var(--txt); font-size:18px; cursor:pointer; }
+  .qty span { min-width:38px; text-align:center; font-family:var(--h); font-size:17px; }
+  @media (max-width:860px) { .cols { grid-template-columns:1fr; } .grid { grid-template-columns:1fr; } .full { grid-column:span 1; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="brand" href="/"><i></i><span id="t-brand">Valora tu carro<span style="opacity:.6">.AI</span></span></a>
+    <a href="/" style="font-family:var(--h);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-decoration:none" id="t-back">← Volver</a>
+  </div>
+
+  <h1 id="t-h1">Su informe de valoración</h1>
+  <p class="lead" id="t-lead">Confirme los datos del carro y sus datos de contacto. El pago se hace con Bold — tarjeta, PSE, Nequi o Bancolombia. Recibe el informe el mismo día por correo y WhatsApp.</p>
+
+  <form id="form" class="cols" novalidate>
+    <div style="display:flex; flex-direction:column; gap:22px">
+      <div class="card">
+        <span class="eyebrow" id="t-veh">El vehículo</span>
+        <div class="grid">
+          <label class="full"><span id="t-modelo">Marca, modelo y año</span><input name="modelo" placeholder="Mazda CX-5 2019" required></label>
+          <label><span id="t-version">Versión</span><input name="version" placeholder="Grand Touring LX"></label>
+          <label><span id="t-km">Kilometraje</span><input name="km" placeholder="78.000 km"></label>
+          <label><span id="t-ciudad">Ciudad</span><input name="ciudad" placeholder="Medellín"></label>
+          <label><span id="t-placa">Placa (opcional)</span><input name="placa" placeholder="ABC123"></label>
+          <div class="full"><label><span id="t-estado">Estado general</span></label>
+            <div class="seg" data-seg="estado"></div></div>
+          <div><label><span id="t-acc">Accidentes</span></label><div class="seg" data-seg="accidentes"></div></div>
+          <div><label><span id="t-mod">Modificaciones</span></label><div class="seg" data-seg="modificaciones"></div></div>
+          <div class="full"><label><span id="t-uso">Para qué la necesita</span></label><div class="seg" data-seg="uso"></div></div>
+          <label class="full"><span id="t-notas">Algo más que debamos saber (opcional)</span><textarea name="notas" rows="3" placeholder="Llantas nuevas, único dueño, garantía vigente…"></textarea></label>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="eyebrow" id="t-cont">Sus datos</span>
+        <div class="grid">
+          <label class="full"><span id="t-nombre">Nombre completo</span><input name="fullName" required placeholder="Juan Pablo Parra"></label>
+          <label><span id="t-email">Correo</span><input name="email" type="email" required placeholder="nombre@correo.com"></label>
+          <label><span id="t-tel">WhatsApp</span><input name="phone" required placeholder="300 000 0000"></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="position:sticky; top:24px">
+      <span class="eyebrow" id="t-pedido">Su pedido</span>
+      <div class="fila"><b id="t-plan">Informe de valoración · 1 carro</b><span id="precio-unit">$30.000</span></div>
+      <div class="fila"><span id="t-cant">Cantidad de carros</span>
+        <span class="qty"><button type="button" data-q="-1" aria-label="menos">−</button><span id="cant">1</span><button type="button" data-q="1" aria-label="más">+</button></span>
+      </div>
+      <div class="total"><span id="t-total">Total</span><span id="total">$30.000</span></div>
+      <button class="btn" type="submit" id="submit">Pagar con Bold</button>
+      <a class="btn btn-ghost" id="wa" target="_blank" rel="noopener">Prefiero WhatsApp</a>
+      <div class="err" id="error"></div>
+      <p class="nota" id="t-nota">Pago seguro procesado por Bold. No guardamos los datos de su tarjeta. Si algo falla, escríbanos por WhatsApp y lo resolvemos.</p>
+    </div>
+  </form>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var WA_NUMBER = "573165017403";
+  var PRECIO = 30000;
+  var q = new URLSearchParams(location.search);
+  var EN = q.get("lang") === "en";
+  if (EN) document.documentElement.lang = "en";
+
+  var T = {
+    es: { h1:"Su informe de valoración", back:"← Volver",
+      lead:"Confirme los datos del carro y sus datos de contacto. El pago se hace con Bold — tarjeta, PSE, Nequi o Bancolombia. Recibe el informe el mismo día por correo y WhatsApp.",
+      veh:"El vehículo", modelo:"Marca, modelo y año", version:"Versión", km:"Kilometraje", ciudad:"Ciudad", placa:"Placa (opcional)",
+      estado:"Estado general", acc:"Accidentes", mod:"Modificaciones", uso:"Para qué la necesita",
+      notas:"Algo más que debamos saber (opcional)", cont:"Sus datos", nombre:"Nombre completo", email:"Correo", tel:"WhatsApp",
+      pedido:"Su pedido", plan:"Informe de valoración · 1 carro", cant:"Cantidad de carros", total:"Total",
+      submit:"Pagar con Bold", wa:"Prefiero WhatsApp", prep:"Preparando el pago…",
+      nota:"Pago seguro procesado por Bold. No guardamos los datos de su tarjeta. Si algo falla, escríbanos por WhatsApp y lo resolvemos.",
+      faltan:"Complete la marca y modelo, su nombre, su correo y su WhatsApp.",
+      conds:["Excelente","Bueno","Regular"], accs:["Sin accidentes","Con reporte","No sé"],
+      mods:["De fábrica","Con cambios"], purps:["Vender","Comprar","Seguro","Legal"],
+      waMsg:"Hola, quiero una valoración de carro." },
+    en: { h1:"Your valuation report", back:"← Back",
+      lead:"Confirm the car details and your contact information. Payment runs on Bold — card, PSE, Nequi or Bancolombia. You get the report the same day by email and WhatsApp.",
+      veh:"The vehicle", modelo:"Make, model and year", version:"Trim", km:"Mileage", ciudad:"City", placa:"Plate (optional)",
+      estado:"Overall condition", acc:"Accidents", mod:"Modifications", uso:"What you need it for",
+      notas:"Anything else we should know (optional)", cont:"Your details", nombre:"Full name", email:"Email", tel:"WhatsApp",
+      pedido:"Your order", plan:"Valuation report · 1 car", cant:"Number of cars", total:"Total",
+      submit:"Pay with Bold", wa:"I'd rather use WhatsApp", prep:"Preparing payment…",
+      nota:"Secure payment processed by Bold. We never store your card details. If anything fails, message us on WhatsApp and we'll sort it out.",
+      faltan:"Please fill in make and model, your name, your email and your WhatsApp.",
+      conds:["Excellent","Good","Fair"], accs:["No accidents","Reported","Not sure"],
+      mods:["Stock","Modified"], purps:["Sell","Buy","Insurance","Legal"],
+      waMsg:"Hi, I'd like a car valuation." }
+  }[EN ? "en" : "es"];
+
+  function $(s) { return document.querySelector(s); }
+  function cop(n) { return "$" + n.toLocaleString("es-CO"); }
+  function setText(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
+
+  ["h1","lead","veh","modelo","version","km","ciudad","placa","estado","acc","mod","uso","notas","cont","nombre",
+   "email","tel","pedido","plan","cant","total","nota","back"].forEach(function (k) { setText("t-" + k, T[k]); });
+  $("#submit").textContent = T.submit;
+  $("#wa").textContent = T.wa;
+  setText("precio-unit", cop(PRECIO));
+
+  /* segmentos */
+  var SEG = { estado: T.conds, accidentes: T.accs, modificaciones: T.mods, uso: T.purps };
+  var elegido = { estado: 0, accidentes: 0, modificaciones: 0, uso: 0 };
+  Object.keys(SEG).forEach(function (key) {
+    var cont = document.querySelector('[data-seg="' + key + '"]');
+    SEG[key].forEach(function (label, i) {
+      var b = document.createElement("button");
+      b.type = "button"; b.textContent = label;
+      b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+      b.addEventListener("click", function () {
+        elegido[key] = i;
+        Array.prototype.forEach.call(cont.children, function (c, j) { c.setAttribute("aria-pressed", j === i ? "true" : "false"); });
+      });
+      cont.appendChild(b);
+    });
+  });
+  function pick(key, valor) {
+    var i = SEG[key].indexOf(valor);
+    if (i < 0) return;
+    document.querySelector('[data-seg="' + key + '"]').children[i].click();
+  }
+
+  /* prellenado desde la landing */
+  var f = document.forms.form || $("#form");
+  ["modelo","version","km","ciudad"].forEach(function (n) { if (q.get(n)) f[n].value = q.get(n); });
+  ["estado","accidentes","modificaciones","uso"].forEach(function (n) { if (q.get(n)) pick(n, q.get(n)); });
+
+  /* cantidad */
+  var cantidad = 1;
+  function pintarTotal() {
+    setText("cant", String(cantidad));
+    setText("total", cop(PRECIO * cantidad));
+  }
+  document.querySelectorAll("[data-q]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      cantidad = Math.min(10, Math.max(1, cantidad + Number(b.getAttribute("data-q"))));
+      pintarTotal();
+    });
+  });
+  pintarTotal();
+
+  function vehiculo() {
+    return {
+      modelo: f.modelo.value.trim(), version: f.version.value.trim(), km: f.km.value.trim(),
+      ciudad: f.ciudad.value.trim(), placa: f.placa.value.trim(), notas: f.notas.value.trim(),
+      estado: SEG.estado[elegido.estado], accidentes: SEG.accidentes[elegido.accidentes],
+      modificaciones: SEG.modificaciones[elegido.modificaciones], uso: SEG.uso[elegido.uso]
+    };
+  }
+  function textoPedido() {
+    var v = vehiculo();
+    return T.waMsg + "\n\n" +
+      T.modelo + ": " + (v.modelo || "—") + "\n" + T.version + ": " + (v.version || "—") + "\n" +
+      T.km + ": " + (v.km || "—") + "\n" + T.ciudad + ": " + (v.ciudad || "—") + "\n" +
+      T.estado + ": " + v.estado + " · " + v.accidentes + " · " + v.modificaciones + "\n" +
+      T.uso + ": " + v.uso + "\n" + T.cant + ": " + cantidad + "\n" + T.total + ": " + cop(PRECIO * cantidad);
+  }
+  function actualizarWa() { $("#wa").href = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(textoPedido()); }
+  f.addEventListener("input", actualizarWa);
+  f.addEventListener("click", actualizarWa);
+  actualizarWa();
+
+  function fallo(msg) { var e = $("#error"); e.textContent = msg; e.classList.add("on"); }
+
+  f.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    $("#error").classList.remove("on");
+    var contacto = {
+      fullName: f.fullName.value.trim(), email: f.email.value.trim(),
+      phone: f.phone.value.trim().replace(/[^0-9]/g, "")
+    };
+    if (!f.modelo.value.trim() || !contacto.fullName || !contacto.email || !contacto.phone) return fallo(T.faltan);
+
+    var btn = $("#submit");
+    btn.disabled = true; btn.textContent = T.prep;
+    var v = vehiculo();
+
+    fetch("/api/leads", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ vehiculo: v, cliente: contacto })
+    }).catch(function () { return null; })
+      .then(function (r) { return r ? r.json().catch(function () { return {}; }) : {}; })
+      .then(function (lead) {
+        return fetch("/api/checkout", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ items: [{ plan: "informe", cantidad: cantidad }], cliente: contacto, leadId: (lead || {}).leadId || null, vehiculo: v })
+        }).then(function (r) {
+          return r.json().then(function (j) {
+            if (!r.ok) throw new Error(j && j.error ? j.error : "No pudimos crear la orden");
+            return j;
+          });
+        });
+      })
+      .then(function (orden) {
+        try { localStorage.setItem("vca_last_order", orden.orderId); } catch (e) {}
+        if (typeof window.BoldCheckout !== "function") { window.open($("#wa").href, "_blank", "noopener"); return; }
+        new window.BoldCheckout({
+          orderId: orden.orderId, currency: orden.currency, amount: String(orden.amount),
+          apiKey: orden.apiKey, integritySignature: orden.integritySignature,
+          description: orden.description, redirectionUrl: orden.redirectionUrl,
+          customerData: JSON.stringify({ email: contacto.email, fullName: contacto.fullName, phone: contacto.phone, dialCode: "+57" }),
+          renderMode: "embedded"
+        }).open();
+      })
+      .catch(function (e) { fallo(e.message + " · WhatsApp: +57 316 501 7403"); })
+      .finally(function () { btn.disabled = false; btn.textContent = T.submit; });
+  });
+})();
+</script>
+</body>
+</html>

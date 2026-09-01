@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resultado del pago · Valora tu carro.AI</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0a0c0e">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/fonts.css">
+<style>
+  :root { --h:"Barlow Condensed", system-ui, sans-serif; --b:"Barlow", system-ui, sans-serif; --muted:rgba(240,244,248,.6); }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#0a0c0e; color:#eef2f6; font-family:var(--b); line-height:1.55; }
+  .wrap { max-width:680px; margin:0 auto; padding:44px 24px 80px; }
+  .brand { display:inline-flex; align-items:center; gap:10px; text-decoration:none; color:inherit; font-family:var(--h); font-size:20px; text-transform:uppercase; margin-bottom:34px; }
+  .brand i { width:26px; height:26px; border:2px solid #fff; display:inline-block; }
+  h1 { font-family:var(--h); font-weight:600; font-size:clamp(30px,4vw,44px); line-height:1.03; margin:0 0 12px; }
+  p { color:var(--muted); }
+  .card { border:1px solid rgba(240,244,248,.16); background:rgba(6,8,10,.66); padding:24px; margin-top:26px; }
+  .fila { display:flex; justify-content:space-between; gap:14px; padding:11px 0; border-bottom:1px solid rgba(240,244,248,.12); font-size:14px; }
+  .fila:last-child { border-bottom:0; }
+  .fila span:last-child { font-family:var(--h); }
+  .btn { display:inline-block; margin-top:22px; font-family:var(--h); font-weight:600; font-size:15px; letter-spacing:.06em; text-transform:uppercase;
+         padding:14px 22px; background:#fff; color:#0a0c0e; text-decoration:none; }
+  .btn.ghost { background:transparent; color:#eef2f6; border:1px solid #eef2f6; margin-left:10px; }
+  .pill { display:inline-block; font-family:var(--h); font-size:12px; letter-spacing:.16em; text-transform:uppercase; padding:6px 12px; border:1px solid currentColor; }
+  .ok { color:#7ee0a5; } .bad { color:#ff8a80; } .wait { color:#e8c76a; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="brand" href="/"><i></i><span>Valora tu carro<span style="opacity:.6">.AI</span></span></a>
+  <span class="pill wait" id="pill">Consultando…</span>
+  <h1 id="titulo">Estamos confirmando su pago</h1>
+  <p id="mensaje">Un momento, le estamos preguntando a Bold cómo quedó la transacción.</p>
+  <div class="card" id="detalle" style="display:none">
+    <div class="fila"><span>Orden</span><span id="d-orden">—</span></div>
+    <div class="fila"><span>Descripción</span><span id="d-desc">—</span></div>
+    <div class="fila"><span>Valor</span><span id="d-monto">—</span></div>
+    <div class="fila"><span>Estado</span><span id="d-estado">—</span></div>
+  </div>
+  <div>
+    <a class="btn" id="wa" target="_blank" rel="noopener">Escribirnos por WhatsApp</a>
+    <a class="btn ghost" href="/">Volver al inicio</a>
+  </div>
+</div>
+<script>
+(function () {
+  "use strict";
+  var WA = "573165017403";
+  var q = new URLSearchParams(location.search);
+  var orderId = q.get("bold-order-id") || q.get("orderId") || (function () { try { return localStorage.getItem("vca_last_order"); } catch (e) { return null; } })();
+  var pill = document.getElementById("pill");
+  function cop(n) { return "$" + Number(n).toLocaleString("es-CO"); }
+  function set(id, v) { document.getElementById(id).textContent = v; }
+  function wa(t) { document.getElementById("wa").href = "https://wa.me/" + WA + "?text=" + encodeURIComponent(t); }
+
+  wa("Hola, acabo de pagar mi valoración de carro" + (orderId ? " (orden " + orderId + ")" : "") + ".");
+
+  if (!orderId) {
+    pill.textContent = "Sin orden"; pill.className = "pill bad";
+    set("titulo", "No encontramos la orden");
+    set("mensaje", "Si ya pagó, escríbanos por WhatsApp con el comprobante y le entregamos el informe de inmediato.");
+    return;
+  }
+
+  var intentos = 0;
+  (function consultar() {
+    intentos++;
+    fetch("/api/orders/" + encodeURIComponent(orderId) + "/status")
+      .then(function (r) { return r.json(); })
+      .then(function (o) {
+        document.getElementById("detalle").style.display = "block";
+        set("d-orden", o.orderId || orderId);
+        set("d-desc", o.descripcion || "Informe de valoración");
+        set("d-monto", o.amount ? cop(o.amount) : "—");
+        set("d-estado", o.estado || "—");
+        if (o.estado === "APPROVED") {
+          pill.textContent = "Pago aprobado"; pill.className = "pill ok";
+          set("titulo", "Listo. Recibimos su pago.");
+          set("mensaje", "Ya estamos armando su informe. Le llega hoy mismo por correo y por WhatsApp. Si quiere agregar fotos o detalles del carro, escríbanos.");
+          wa("Hola, ya pagué mi valoración (orden " + orderId + "). Le mando los detalles del carro.");
+        } else if (o.estado === "REJECTED" || o.estado === "FAILED" || o.estado === "VOIDED") {
+          pill.textContent = "Pago no completado"; pill.className = "pill bad";
+          set("titulo", "El pago no se completó");
+          set("mensaje", "No se hizo ningún cobro. Puede intentar de nuevo o pagar por WhatsApp con otro método.");
+        } else if (intentos < 8) {
+          setTimeout(consultar, 2500);
+        } else {
+          pill.textContent = "En proceso"; pill.className = "pill wait";
+          set("titulo", "Su pago sigue en proceso");
+          set("mensaje", "Algunos métodos (PSE, transferencias) tardan unos minutos. Le avisamos apenas se confirme; también puede escribirnos.");
+        }
+      })
+      .catch(function () {
+        pill.textContent = "Sin conexión"; pill.className = "pill bad";
+        set("mensaje", "No pudimos consultar el estado. Escríbanos por WhatsApp con el número de orden " + orderId + ".");
+      });
+  })();
+})();
+</script>
+</body>
+</html>
