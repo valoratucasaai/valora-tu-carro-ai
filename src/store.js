@@ -9,7 +9,32 @@
 const fs = require("fs");
 const path = require("path");
 
-const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, "..", "data");
+const DATA_DIR_LOCAL = path.join(__dirname, "..", "data");
+
+/**
+ * Si DATA_DIR apunta a una carpeta donde no se puede escribir (típico: se configuró
+ * /var/data pero el plan de Render no tiene disco montado), se cae de vuelta a la
+ * carpeta del proyecto en vez de tumbar el servidor. Se pierden los datos en cada
+ * despliegue, pero el sitio sigue vendiendo y Bold conserva el registro de los pagos.
+ */
+function resolverDataDir() {
+  const pedido = process.env.DATA_DIR || DATA_DIR_LOCAL;
+  try {
+    fs.mkdirSync(pedido, { recursive: true });
+    fs.accessSync(pedido, fs.constants.W_OK);
+    return pedido;
+  } catch (e) {
+    console.warn(
+      "[store] No se puede escribir en " + pedido + " (" + e.code + "). " +
+      "Uso " + DATA_DIR_LOCAL + ". Los datos NO sobreviven a un redespliegue: " +
+      "monta un disco persistente y apunta DATA_DIR ahí."
+    );
+    try { fs.mkdirSync(DATA_DIR_LOCAL, { recursive: true }); } catch (e2) {}
+    return DATA_DIR_LOCAL;
+  }
+}
+
+const DATA_DIR = resolverDataDir();
 const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
 const LEADS_FILE = path.join(DATA_DIR, "leads.json");
 
