@@ -76,7 +76,7 @@ Necesita un servidor Node: GitHub Pages o Netlify a secas no sirven, porque la f
 | `BOLD_IDENTITY_KEY` | Llave de identidad de Bold |
 | `BOLD_SECRET_KEY` | Llave secreta de Bold |
 | `BOLD_WEBHOOK_SECRET` | Llave secreta del webhook (si la dejas vacía se usa la secreta) |
-| `PUBLIC_URL` | La URL pública real, sin barra final. Ej: `https://valoratucarro.ai` |
+| `PUBLIC_URL` | La URL pública real, sin barra final. Ej: `https://vtc.lat` |
 | `ADMIN_TOKEN` | Un token largo que te inventas, para ver tus órdenes |
 | `DATA_DIR` | `/var/data` en Render; `./data` en local |
 
