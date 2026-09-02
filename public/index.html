@@ -724,7 +724,7 @@ textarea.input { min-height: 90px; resize: vertical; }
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:24px; margin-top:20px; padding-top:20px; border-top:1px solid rgba(240,244,248,.14)">
         <label style="display:flex; flex-direction:column; gap:8px">
           <span style="display:flex; justify-content:space-between; gap:10px; white-space:nowrap; font-family:var(--font-heading); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(240,244,248,.6)">Kilometraje <strong style="color:#eef2f6">{{ demoMiles }}</strong></span>
-          <input type="range" min="32000" max="129000" step="1000" value="{{ miles }}" sc-camel-on-change="{{ onMiles }}" sc-camel-on-input="{{ onMiles }}" style="width:100%">
+          <input type="range" min="32000" max="129000" step="1000" value="{{ miles }}" sc-camel-on-change="{{ onMiles }}" sc-camel-on-input="{{ onMiles }}" style="width:100%"><span class="vtc-pista"><i>&#8596;</i>Deslice para cambiar el kilometraje</span>
         </label>
         <div style="display:flex; flex-direction:column; gap:8px">
           <span style="font-family:var(--font-heading); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(240,244,248,.6)">Quién vende</span>
@@ -1048,9 +1048,9 @@ textarea.input { min-height: 90px; resize: vertical; }
           </div>
         </div>
         <div style="display:flex; flex-direction:column; gap:7px">
-          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.6)">Accidentes</span>
+          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.6)">Accidentes reportados</span>
           <div style="display:flex; border:1px solid rgba(240,244,248,.2)">
-            <sc-for list="{{ accOpts }}" as="o" hint-placeholder-count="3">
+            <sc-for list="{{ accOpts }}" as="o" hint-placeholder-count="4">
               <button sc-camel-on-click="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
             </sc-for>
           </div>
@@ -1103,7 +1103,7 @@ textarea.input { min-height: 90px; resize: vertical; }
       <div style="display:flex; flex-direction:column; gap:7px">
         <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.45)">Contacto</span>
         <span style="font-size:14px">WhatsApp +57 · por definir</span>
-        <span style="font-size:14px">hola@vtc.lat · por definir</span>
+        <span style="font-size:14px">hola@valoratucarro.ai · por definir</span>
         <span style="font-size:14px; color:rgba(255,255,255,.6)">Atención 24/7</span>
       </div>
       <div style="display:flex; flex-direction:column; gap:7px">
@@ -1208,7 +1208,7 @@ class Component extends DCLogic {
     }));
 
     const conds = ["Excelente", "Bueno", "Regular"];
-    const accs = ["Sin accidentes", "Con reporte", "No sé"];
+    const accs = ["Ninguno", "1", "2", "3 o más"];
     const mods = ["De fábrica", "Con cambios"];
     const purps = ["Vender", "Comprar", "Seguro", "Legal"];
     const msg = "Hola, quiero una valoración.\n\n" +
@@ -1216,7 +1216,8 @@ class Component extends DCLogic {
       "Versión: " + (s.trim || "—") + "\n" +
       "Kilometraje: " + (s.km || "—") + "\n" +
       "Ciudad: " + (s.city || "—") + "\n" +
-      "Estado: " + conds[s.cond] + " · " + accs[s.acc] + " · " + mods[s.mod] + "\n" +
+      "Estado: " + conds[s.cond] + " · " + mods[s.mod] + "\n" +
+      "Accidentes: " + accs[s.acc] + "\n" +
       "La necesito para: " + purps[s.purp];
 
     return {
@@ -1279,5 +1280,56 @@ class Component extends DCLogic {
 
 </script>
 
+
+
+<style id="vtc-movil">
+/* ---- Ajustes propios: móvil, sliders y accidentes. No vienen del diseño. ---- */
+html, body { overflow-x: hidden !important; max-width: 100vw; }
+* { min-width: 0; }
+
+/* El slider tiene que verse arrastrable */
+input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 26px;
+  background: transparent; cursor: grab; margin: 0; }
+input[type="range"]:active { cursor: grabbing; }
+input[type="range"]::-webkit-slider-runnable-track { height: 3px; background: rgba(240,244,248,.28); }
+input[type="range"]::-moz-range-track { height: 3px; background: rgba(240,244,248,.28); }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none;
+  width: 22px; height: 22px; margin-top: -10px; border-radius: 50%; background: #fff;
+  border: 0; box-shadow: 0 0 0 4px rgba(255,255,255,.14); }
+input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%;
+  background: #fff; border: 0; box-shadow: 0 0 0 4px rgba(255,255,255,.14); }
+input[type="range"]:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+
+.vtc-pista { display: flex; align-items: center; gap: 7px; margin-top: 6px;
+  font-family: var(--font-heading); font-size: 11px; letter-spacing: .14em;
+  text-transform: uppercase; color: rgba(255,255,255,.75); }
+.vtc-pista i { font-style: normal; animation: vtc-vaiven 1.9s ease-in-out infinite; }
+@keyframes vtc-vaiven { 0%,100% { transform: translateX(-3px) } 50% { transform: translateX(3px) } }
+@media (prefers-reduced-motion: reduce) { .vtc-pista i { animation: none } }
+
+/* ---- Móvil ---- */
+@media (max-width: 860px) {
+  header nav { display: none !important; }
+  header > div { padding-left: 16px !important; padding-right: 16px !important; gap: 10px !important; }
+  header > div > div { gap: 8px !important; }
+  header > div > div a { font-size: 11px !important; padding: 9px 11px !important; letter-spacing: .05em !important; }
+  header a > span { font-size: 17px !important; }
+  section { padding-left: 16px !important; padding-right: 16px !important; }
+  [style*="minmax"] { grid-template-columns: 1fr !important; }
+  [style*="grid-template-columns:1fr 1fr"], [style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
+  [style*="grid-column:span 2"], [style*="grid-column: span 2"] { grid-column: span 1 !important; }
+  .blueprint { padding-left: 16px !important; padding-right: 16px !important; }
+  h1 { font-size: 34px !important; line-height: 1.05 !important; }
+  h2 { font-size: 26px !important; line-height: 1.08 !important; }
+  /* filas de segmentos: que envuelvan en vez de desbordar */
+  [style*="display:flex"][style*="border:1px solid rgba(240,244,248,.2)"] { flex-wrap: wrap; }
+  /* las gráficas anchas se desplazan dentro de su caja, no arrastran la página */
+  .vtc-scroll-x { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+  .vtc-scroll-x > svg { min-width: 520px; }
+}
+@media (max-width: 460px) {
+  header > div > div a[href$="/en/"], header > div > div a[href="/"] { display: none !important; }
+}
+</style>
 
 </body></html>
