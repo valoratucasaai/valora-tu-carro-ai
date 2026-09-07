@@ -1,8 +1,10 @@
+# Plan free de Render: sin disco persistente (el disco solo existe en planes pagos).
+# Los datos viven en Neon (Postgres), configurado con DATABASE_URL.
 services:
   - type: web
     name: valora-tu-carro-ai
     runtime: node
-    plan: starter
+    plan: free
     buildCommand: npm install
     startCommand: npm start
     healthCheckPath: /api/health
@@ -15,11 +17,8 @@ services:
         sync: false
       - key: PUBLIC_URL
         sync: false
+      # Cadena de conexión de Neon. SIN ella los datos se pierden en cada redespliegue.
+      - key: DATABASE_URL
+        sync: false
       - key: ADMIN_TOKEN
         generateValue: true
-      - key: DATA_DIR
-        value: /var/data
-    disk:
-      name: datos
-      mountPath: /var/data
-      sizeGB: 1

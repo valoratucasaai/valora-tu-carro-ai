@@ -6,7 +6,7 @@ const path = require("path");
 const crypto = require("crypto");
 const express = require("express");
 
-const store = require("./src/store");
+const store = require("./src/db");
 const { calcularOrden } = require("./src/planes");
 const { integritySignature, verifyWebhookSignature, fetchPaymentStatus } = require("./src/bold");
 
@@ -28,6 +28,27 @@ if (!BOLD_IDENTITY_KEY || !BOLD_SECRET_KEY) {
 
 app.set("trust proxy", 1);
 app.disable("x-powered-by");
+
+/** Envuelve un handler async para que los errores no tumben el proceso. */
+const asyncH = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
+
+/** Comparación en tiempo constante para tokens. */
+function tokenValido(a, b) {
+  if (!a || !b) return false;
+  const x = Buffer.from(String(a));
+  const y = Buffer.from(String(b));
+  if (x.length !== y.length) return false;
+  return crypto.timingSafeEqual(x, y);
+}
+
+/** Middleware de las rutas internas que consume la tarea programada. */
+function soloAdmin(req, res, next) {
+  const enviado = req.get("x-admin-token") || req.query.token || "";
+  if (!ADMIN_TOKEN || !tokenValido(enviado, ADMIN_TOKEN)) {
+    return res.status(401).json({ error: "No autorizado" });
+  }
+  next();
+}
 
 /* El webhook necesita el cuerpo crudo para validar la firma: se registra antes del json() global. */
 app.post(
@@ -58,26 +79,29 @@ app.post(
     console.log("[webhook]", tipo, "orden:", orderId, "tx:", evento && evento.subject);
     if (!orderId) return;
 
-    const orden = store.obtenerOrden(orderId);
-    if (!orden) return;
+    // Procesamiento en segundo plano: la respuesta ya salió.
+    (async () => {
+      const orden = await store.obtenerOrden(orderId);
+      if (!orden) return;
 
-    // Idempotencia: si ya procesamos este evento, no repetimos.
-    const vistos = orden.eventosBold || [];
-    if (evento.id && vistos.includes(evento.id)) return;
+      // Idempotencia: si ya procesamos este evento, no repetimos.
+      const vistos = orden.eventosBold || [];
+      if (evento.id && vistos.includes(evento.id)) return;
 
-    const mapa = {
-      SALE_APPROVED: "APPROVED",
-      SALE_REJECTED: "REJECTED",
-      VOID_APPROVED: "VOIDED",
-      VOID_REJECTED: orden.estado
-    };
+      const mapa = {
+        SALE_APPROVED: "APPROVED",
+        SALE_REJECTED: "REJECTED",
+        VOID_APPROVED: "VOIDED",
+        VOID_REJECTED: orden.estado
+      };
 
-    store.actualizarOrden(orderId, {
-      estado: mapa[tipo] || orden.estado,
-      transactionId: evento.subject || orden.transactionId || null,
-      eventosBold: vistos.concat(evento.id ? [evento.id] : []),
-      ultimoEvento: { tipo, recibidoEn: new Date().toISOString() }
-    });
+      await store.actualizarOrden(orderId, {
+        estado: mapa[tipo] || orden.estado,
+        transactionId: evento.subject || orden.transactionId || null,
+        eventosBold: vistos.concat(evento.id ? [evento.id] : []),
+        ultimoEvento: { tipo, recibidoEn: new Date().toISOString() }
+      });
+    })().catch((e) => console.error("[webhook] error procesando:", e.message));
   }
 );
 
@@ -86,7 +110,7 @@ app.use(express.json({ limit: "256kb" }));
 /* ---------- API ---------- */
 
 /** Guarda la ficha del vehículo antes de pagar (por si el cliente abandona el checkout). */
-app.post("/api/leads", (req, res) => {
+app.post("/api/leads", asyncH(async (req, res) => {
   const vehiculo = (req.body && (req.body.vehiculo || req.body.propiedad)) || null;
   if (!vehiculo || typeof vehiculo !== "object") {
     return res.status(400).json({ error: "Faltan los datos del vehículo" });
@@ -98,12 +122,12 @@ app.post("/api/leads", (req, res) => {
     createdAt: new Date().toISOString(),
     origen: req.get("referer") || null
   };
-  store.guardarLead(lead);
+  await store.guardarLead(lead);
   res.json({ leadId: lead.leadId });
-});
+}));
 
 /** Crea la orden y devuelve la firma de integridad para abrir el checkout de Bold. */
-app.post("/api/checkout", (req, res) => {
+app.post("/api/checkout", asyncH(async (req, res) => {
   try {
     if (!BOLD_IDENTITY_KEY || !BOLD_SECRET_KEY) {
       return res.status(503).json({ error: "La pasarela de pagos todavía no está configurada" });
@@ -122,8 +146,13 @@ app.post("/api/checkout", (req, res) => {
 
     const firma = integritySignature({ orderId, amount, currency, secretKey: BOLD_SECRET_KEY });
 
-    store.guardarOrden({
+    const fichaPrevia =
+      vehiculo || (leadId ? ((await store.obtenerLead(leadId)) || {}).vehiculo : null) || null;
+
+    await store.guardarOrden({
       orderId,
+      // Llave del formulario de correccion. Solo se revela con el pago aprobado.
+      formToken: crypto.randomBytes(16).toString("hex"),
       amount: total,
       currency,
       descripcion,
@@ -134,7 +163,7 @@ app.post("/api/checkout", (req, res) => {
         phone: String(cliente.phone || "").slice(0, 30)
       },
       leadId: leadId || null,
-      vehiculo: vehiculo || (leadId ? (store.obtenerLead(leadId) || {}).vehiculo : null) || null,
+      vehiculo: fichaPrevia,
       estado: "CREATED",
       createdAt: new Date().toISOString()
     });
@@ -151,27 +180,37 @@ app.post("/api/checkout", (req, res) => {
   } catch (e) {
     res.status(e.status || 500).json({ error: e.message || "Error creando la orden" });
   }
-});
+}));
 
 /** Adjunta (o corrige) la ficha del vehículo en una orden ya creada. */
-app.post("/api/orders/:orderId/vehiculo", (req, res) => {
+app.post("/api/orders/:orderId/vehiculo", asyncH(async (req, res) => {
   const orderId = req.params.orderId;
   const vehiculo = (req.body && req.body.vehiculo) || null;
+  const enviado = (req.body && req.body.token) || req.get("x-form-token") || req.query.t || "";
+
   if (!vehiculo || typeof vehiculo !== "object") {
     return res.status(400).json({ error: "Faltan los datos del vehículo" });
   }
-  const orden = store.obtenerOrden(orderId);
+  const orden = await store.obtenerOrden(orderId);
   if (!orden) return res.status(404).json({ error: "Orden no encontrada" });
 
-  store.actualizarOrden(orderId, { vehiculo, fichaRecibidaEn: new Date().toISOString() });
+  // Sin esto, cualquiera con un orderId podía sobrescribir la ficha de un cliente.
+  if (!tokenValido(enviado, orden.formToken)) {
+    return res.status(401).json({ error: "Link inválido o vencido" });
+  }
+  if (orden.entregadoEn) {
+    return res.status(409).json({ error: "Esta valoración ya fue entregada" });
+  }
+
+  await store.actualizarOrden(orderId, { vehiculo, fichaRecibidaEn: new Date().toISOString() });
   console.log("[ficha] recibida para la orden", orderId, "·", vehiculo.modelo || "sin modelo");
   res.json({ ok: true });
-});
+}));
 
 /** Estado real de la orden: se consulta a Bold, nunca se confía en el parámetro de la URL. */
-app.get("/api/orders/:orderId/status", async (req, res) => {
+app.get("/api/orders/:orderId/status", asyncH(async (req, res) => {
   const orderId = req.params.orderId;
-  const orden = store.obtenerOrden(orderId);
+  const orden = await store.obtenerOrden(orderId);
 
   let boldStatus = null;
   let boldError = null;
@@ -180,7 +219,7 @@ app.get("/api/orders/:orderId/status", async (req, res) => {
       const voucher = await fetchPaymentStatus(orderId, BOLD_IDENTITY_KEY);
       boldStatus = voucher && voucher.payment_status ? voucher.payment_status : null;
       if (orden && boldStatus && boldStatus !== "NO_TRANSACTION_FOUND" && boldStatus !== orden.estado) {
-        store.actualizarOrden(orderId, {
+        await store.actualizarOrden(orderId, {
           estado: boldStatus,
           transactionId: (voucher && voucher.transaction_id) || orden.transactionId || null,
           metodoPago: (voucher && voucher.payment_method) || null
@@ -193,32 +232,104 @@ app.get("/api/orders/:orderId/status", async (req, res) => {
 
   if (!orden && !boldStatus) return res.status(404).json({ error: "Orden no encontrada" });
 
-  const actual = store.obtenerOrden(orderId) || {};
+  const actual = (await store.obtenerOrden(orderId)) || {};
+  const estado = boldStatus || actual.estado || "UNKNOWN";
   res.json({
     orderId,
-    estado: boldStatus || actual.estado || "UNKNOWN",
+    estado,
     amount: actual.amount || null,
     descripcion: actual.descripcion || null,
     planes: (actual.detalle || []).map((d) => d.plan),
     transactionId: actual.transactionId || null,
     metodoPago: actual.metodoPago || null,
+    // Solo con el pago aprobado y sin entregar: sirve para corregir la ficha.
+    formToken: estado === "APPROVED" && !actual.entregadoEn ? (actual.formToken || null) : null,
+    fichaRecibida: Boolean(actual.vehiculo),
     boldError
   });
-});
+}));
+
+/* ---------- Rutas internas: las consume la tarea programada ---------- */
+
+/**
+ * Trabajos listos para valorar: pagados, con ficha del vehículo y sin entregar.
+ * Antes de responder reconcilia contra Bold, por si se perdió un webhook.
+ */
+app.get("/api/pendientes", soloAdmin, asyncH(async (req, res) => {
+  const todas = await store.listarOrdenes(100);
+  const sinConfirmar = todas.filter(
+    (o) => o.vehiculo && !o.entregadoEn && o.estado !== "APPROVED" && o.estado !== "REJECTED" && o.estado !== "VOIDED"
+  );
+  for (const o of sinConfirmar) {
+    if (!BOLD_IDENTITY_KEY) break;
+    try {
+      const v = await fetchPaymentStatus(o.orderId, BOLD_IDENTITY_KEY);
+      const st = v && v.payment_status;
+      if (st && st !== "NO_TRANSACTION_FOUND" && st !== o.estado) {
+        await store.actualizarOrden(o.orderId, { estado: st, reconciliadoEn: new Date().toISOString() });
+        console.log("[reconciliación]", o.orderId, "->", st);
+      }
+    } catch (e) {
+      console.warn("[reconciliación] falló", o.orderId, e.message);
+    }
+  }
+
+  const pendientes = await store.listarPendientes();
+  res.json({
+    generadoEn: new Date().toISOString(),
+    total: pendientes.length,
+    trabajos: pendientes.map((o) => ({
+      orderId: o.orderId,
+      codigo: o.codigo || null,
+      cantidad: (o.detalle || []).reduce((n, d) => n + (d.cantidad || 1), 0) || 1,
+      cliente: o.cliente,
+      vehiculo: o.vehiculo,
+      pagadoEn: o.updatedAt || o.createdAt,
+      intentos: o.intentos || 0,
+      ultimoError: o.ultimoError || null
+    }))
+  });
+}));
+
+/** La tarea programada reporta el resultado de una valoración. */
+app.post("/api/entregar", soloAdmin, asyncH(async (req, res) => {
+  const { orderId, ok, codigo, valorEstimado, error, canal } = req.body || {};
+  if (!orderId) return res.status(400).json({ error: "Falta orderId" });
+
+  const orden = await store.obtenerOrden(orderId);
+  if (!orden) return res.status(404).json({ error: "Orden no encontrada" });
+
+  if (ok) {
+    await store.actualizarOrden(orderId, {
+      entregadoEn: new Date().toISOString(),
+      codigo: codigo || orden.codigo || null,
+      valorEstimado: valorEstimado || null,
+      canalEntrega: canal || "correo",
+      ultimoError: null
+    });
+    console.log("[entrega] OK", orderId, codigo || "");
+  } else {
+    await store.actualizarOrden(orderId, {
+      intentos: (orden.intentos || 0) + 1,
+      ultimoError: String(error || "sin detalle").slice(0, 500),
+      ultimoIntentoEn: new Date().toISOString()
+    });
+    console.warn("[entrega] FALLO", orderId, error);
+  }
+  res.json({ ok: true });
+}));
 
 /** Panel mínimo: lista de órdenes y fichas. Protegido con ADMIN_TOKEN. */
-app.get("/api/admin/orders", (req, res) => {
-  if (!ADMIN_TOKEN || req.get("x-admin-token") !== ADMIN_TOKEN) {
-    return res.status(401).json({ error: "No autorizado" });
-  }
-  res.json({ ordenes: store.listarOrdenes(), leads: store.listarLeads() });
-});
+app.get("/api/admin/orders", soloAdmin, asyncH(async (req, res) => {
+  res.json({ ordenes: await store.listarOrdenes(), leads: await store.listarLeads() });
+}));
 
 app.get("/api/health", (_req, res) => {
   res.json({
     ok: true,
     sitio: "valora-tu-carro-ai",
     boldConfigurado: Boolean(BOLD_IDENTITY_KEY && BOLD_SECRET_KEY),
+    almacenamiento: store.modoActual(),
     publicUrl: PUBLIC_URL
   });
 });
@@ -243,6 +354,15 @@ app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, "public", "404.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Valora tu carro.AI escuchando en ${PUBLIC_URL} (puerto ${PORT})`);
+app.use((err, _req, res, _next) => {
+  console.error("[error]", err && err.message);
+  res.status(500).json({ error: "Error interno" });
 });
+
+store.init()
+  .catch((e) => console.error("[db] init falló:", e.message))
+  .finally(() => {
+    app.listen(PORT, () => {
+      console.log(`Valora tu carro.AI escuchando en ${PUBLIC_URL} (puerto ${PORT}) · almacenamiento: ${store.modoActual()}`);
+    });
+  });
