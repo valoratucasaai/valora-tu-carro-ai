@@ -1,0 +1,6 @@
+Mientras este archivo exista, la tarea programada envía los informes al correo
+interno (CORREO_INTERNO) en vez de al cliente, y NO marca las órdenes como
+entregadas.
+
+Bórralo cuando confíes en el pipeline y quieras que los informes salgan directo
+al cliente. Recomendación: después de 5 o 6 informes automáticos revisados.
