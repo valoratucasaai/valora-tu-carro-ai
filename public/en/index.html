@@ -9,17 +9,21 @@
 <meta property="og:title" content="Valora tu carro.AI · What your car is worth in Colombia">
 <meta property="og:description" content="Vehicle valuation report built from real Colombian market listings. One-page PDF and six-sheet Excel for $30,000 COP, same day.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#0a0c0e">
+<meta name="theme-color" content="#ffffff">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600&family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="/assets/fonts.css">
 
 <script src="/assets/aa77ae4c49f5.js"></script>
 <script src="/assets/feb8ddc9d056.js"></script>
 <script src="/assets/c73c461b6a3d.js"></script>
 <script src="/assets/2e38395c4a4a.js"></script>
+<script src="https://checkout.bold.co/library/boldPaymentButton.js"></script>
 </head>
-<body style="margin:0;background:#0a0c0e;color:#eef2f6">
-<noscript><div style="padding:40px 24px;font-family:system-ui,sans-serif;max-width:720px;margin:0 auto"><h1 style="font-size:28px">Valora tu carro.AI · What your car is worth in Colombia</h1><p style="line-height:1.6">Vehicle valuation report built from real Colombian market listings. One-page PDF and six-sheet Excel for $30,000 COP, same day.</p><p><a style="color:#fff" href="https://wa.me/573165017403">WhatsApp +57 316 501 7403</a></p></div></noscript>
+<body style="margin:0;background:#ffffff;color:#0a0e14">
+<noscript><div style="padding:40px 24px;font-family:system-ui,sans-serif;max-width:720px;margin:0 auto"><h1 style="font-size:28px">Valora tu carro.AI · What your car is worth in Colombia</h1><p style="line-height:1.6">Vehicle valuation report built from real Colombian market listings. One-page PDF and six-sheet Excel for $30,000 COP, same day.</p><p><a style="color:#3d6d99" href="https://wa.me/573165017403">WhatsApp +57 316 501 7403</a></p></div></noscript>
 <x-dc>
 <helmet>
 <style>/* Industry — design-system tokens and component classes. This file is the source of truth for the system's look; retune it here and see readme.md. */
@@ -161,12 +165,12 @@
 
 
 :root {
-  --color-bg: #f2f2f3;
-  --color-surface: #e9e9ea;
-  --color-text: #1d1f20;
-  --color-accent: #5980a6;
-  --color-accent-2: #728fab;
-  --color-divider: color-mix(in srgb, #1d1f20 16%, transparent);
+  --color-bg: #ffffff;
+  --color-surface: #f7f8fa;
+  --color-text: #0a0e14;
+  --color-accent: #3d6d99;
+  --color-accent-2: #7aa6cb;
+  --color-divider: #e5e8ee;
 
   /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
      same step of any role matches the others in visual value. */
@@ -200,9 +204,9 @@
   --color-accent-2-800: #314457;
   --color-accent-2-900: #1f2d3a;
 
-  --font-heading: "Barlow Condensed", system-ui, sans-serif;
+  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-heading-weight: 600;
-  --font-body: "Barlow", system-ui, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   --space-1: 3.4px;
   --space-2: 6.8px;
@@ -211,9 +215,9 @@
   --space-6: 20.4px;
   --space-8: 27.2px;
 
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 7px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
 
   /* Elevation — derived from the ground: soft ink-tinted shadows on a
      light theme, a hairline edge + ambient darkness on a dark one. */
@@ -637,128 +641,153 @@ textarea.input { min-height: 90px; resize: vertical; }
 }
 </style>
 <style>
-
-  :root, body { --color-text:#eef2f6; --color-bg:#0a0c0e; --color-divider:rgba(240,244,248,.22); --color-neutral-100:rgba(240,244,248,.06); --color-neutral-200:rgba(240,244,248,.12); --color-accent:#ffffff; --color-accent-100:rgba(255,255,255,.14); --color-accent-200:rgba(255,255,255,.2); --color-accent-700:#ffffff; --color-accent-800:#ffffff; --color-accent-2:#ffffff; --color-accent-2-100:rgba(255,255,255,.14); --color-accent-2-800:#ffffff; }
-  body { margin: 0; background: #0a0c0e; color: #eef2f6; }
-  a { color: #ffffff; text-decoration: none; }
-  a:hover { color: #ffffff; }
-  ::selection { background: rgba(255,255,255,.2); }
-  input[type=range] { -webkit-appearance: none; appearance: none; height: 2px; background: rgba(240,244,248,.25); outline: none; }
-  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 28px; background: #ffffff; cursor: grab; border-radius: 0; }
-  input[type=range]::-moz-range-thumb { width: 14px; height: 28px; background: #ffffff; cursor: grab; border: 0; border-radius: 0; }
-  :focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }
+  /* Tema claro — mismo sistema visual que valoratucasa.lat (Inter + azul #3d6d99) */
+  :root, body {
+    --color-text:#0a0e14; --color-text-2:#4a5461; --color-text-3:#7b8592;
+    --color-bg:#ffffff; --color-surface:#f7f8fa; --color-surface-2:#eef1f5;
+    --color-divider:#e5e8ee;
+    --color-neutral-100:#f7f8fa; --color-neutral-200:#eef1f5; --color-neutral-300:#e5e8ee;
+    --color-accent:#3d6d99; --color-accent-100:#e9f1f8; --color-accent-200:#d8e6f2;
+    --color-accent-700:#3d6d99; --color-accent-800:#28506f;
+    --color-accent-2:#3d6d99; --color-accent-2-100:#e9f1f8; --color-accent-2-800:#28506f;
+    --font-heading:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    --font-body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    --font-heading-weight:600;
+    --radius-sm:10px; --radius-md:14px; --radius-lg:22px;
+  }
+  body { margin:0; background:#ffffff; color:#0a0e14;
+         font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+         letter-spacing:-0.011em; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3,h4,h5,h6 { font-family:var(--font-heading); font-weight:600;
+                      letter-spacing:-0.034em; line-height:1.05; text-transform:none; }
+  a { color:inherit; text-decoration:none; }
+  a:hover { color:#3d6d99; }
+  ::selection { background:rgba(61,109,153,.18); }
+  /* el marco "blueprint" del kit oscuro se suaviza al lenguaje de tarjetas de casas */
+  .blueprint { border:1px solid #e5e8ee !important; border-radius:14px !important;
+               box-shadow:0 1px 2px rgba(10,14,20,.05), 0 4px 14px rgba(10,14,20,.05); }
+  .blueprint > .corner { display:none !important; }
+  input[type=range] { -webkit-appearance:none; appearance:none; height:4px;
+                      background:#e5e8ee; border-radius:99px; outline:none; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px;
+      background:#3d6d99; cursor:grab; border-radius:50%;
+      box-shadow:0 1px 3px rgba(10,14,20,.25); }
+  input[type=range]::-moz-range-thumb { width:18px; height:18px; background:#3d6d99;
+      cursor:grab; border:0; border-radius:50%; }
+  :focus-visible { outline:2px solid #3d6d99; outline-offset:2px; }
+  * { text-transform:none !important; }
 </style>
 </helmet>
 
 
 
-<div style="position:fixed; inset:0; z-index:0; pointer-events:none; background:#0a0c0e"></div>
-<div style="position:fixed; inset:0; z-index:0; pointer-events:none; background:url(&quot;cf4f9658-cd9f-4980-bf15-3114e358e46b&quot;) center center / min(1150px,92vw) auto no-repeat; filter:invert(1) grayscale(1) contrast(1.15); opacity:.17"></div>
-<div style="position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(120% 90% at 50% 10%, rgba(255,255,255,.10), rgba(10,12,14,0) 62%)"></div>
+<div style="position:fixed; inset:0; z-index:0; pointer-events:none; background:#ffffff"></div>
+<div style="position:fixed; inset:0; z-index:0; pointer-events:none; background:url(&quot;cf4f9658-cd9f-4980-bf15-3114e358e46b&quot;) center center / min(1150px,92vw) auto no-repeat; filter:grayscale(1) contrast(1.05); opacity:.06"></div>
+<div style="position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(120% 90% at 50% 10%, rgba(61,109,153,0.1), rgba(255,255,255,0) 62%)"></div>
 
-<div style="position:relative; z-index:1; font-family:var(--font-body); background:transparent; color:#eef2f6">
+<div style="position:relative; z-index:1; font-family:var(--font-body); background:transparent; color:#0a0e14">
 
-  <header style="position:sticky; top:0; z-index:30; background:rgba(8,10,12,.88); backdrop-filter:blur(6px); border-bottom:1px solid rgba(240,244,248,.14)">
+  <header style="position:sticky; top:0; z-index:30; background:rgba(255,255,255,.78); backdrop-filter:saturate(180%) blur(20px); border-bottom:1px solid #e5e8ee">
     <div style="max-width:1200px; margin:0 auto; padding:14px 32px; display:flex; align-items:center; gap:28px">
-      <a href="#top" style="display:flex; align-items:center; gap:11px; color:#eef2f6">
-        <svg sc-camel-view-box="0 0 32 32" style="width:26px; height:26px; flex:none"><g stroke="#eef2f6" stroke-width="3"><line x1="4" y1="8" x2="4" y2="24"></line><line x1="28" y1="8" x2="28" y2="24"></line><line x1="4" y1="16" x2="28" y2="16"></line></g><rect x="13" y="10" width="6" height="12" fill="#ffffff"></rect></svg>
-        <span style="font-family:var(--font-heading); font-weight:600; font-size:20px; letter-spacing:-.01em; white-space:nowrap">Car price<span style="color:#ffffff">.AI</span></span>
+      <a href="#top" style="display:flex; align-items:center; gap:11px; color:#0a0e14">
+        <svg sc-camel-view-box="0 0 32 32" style="width:26px; height:26px; flex:none"><g stroke="#0a0e14" stroke-width="3"><line x1="4" y1="8" x2="4" y2="24"></line><line x1="28" y1="8" x2="28" y2="24"></line><line x1="4" y1="16" x2="28" y2="16"></line></g><rect x="13" y="10" width="6" height="12" fill="#3d6d99"></rect></svg>
+        <span style="font-family:var(--font-heading); font-weight:600; font-size:20px; letter-spacing:-.01em; white-space:nowrap">Car price<span style="color:#3d6d99">.AI</span></span>
       </a>
-      <nav style="display:flex; gap:22px; margin-left:12px; font-family:var(--font-heading); font-size:14px; letter-spacing:.06em; text-transform:uppercase">
-        <a href="#mercado" style="color:rgba(240,244,248,.65)" style-hover="color:#eef2f6">Market</a>
-        <a href="#informe" style="color:rgba(240,244,248,.65)" style-hover="color:#eef2f6">Report</a>
-        <a href="#precio" style="color:rgba(240,244,248,.65)" style-hover="color:#eef2f6">Pricing</a>
-        <a href="#pedir" style="color:rgba(240,244,248,.65)" style-hover="color:#eef2f6">Order</a>
+      <nav style="display:flex; gap:22px; margin-left:12px; font-family:var(--font-heading); font-size:14px; letter-spacing: .01em">
+        <a href="#mercado" style="color:#4a5461" style-hover="color:#0a0e14">Market</a>
+        <a href="#informe" style="color:#4a5461" style-hover="color:#0a0e14">Report</a>
+        <a href="#precio" style="color:#4a5461" style-hover="color:#0a0e14">Pricing</a>
+        <a href="#pedir" style="color:#4a5461" style-hover="color:#0a0e14">Order</a>
       </nav>
       <div style="margin-left:auto; display:flex; align-items:center; gap:14px">
-        <a href="/" style="font-family:var(--font-heading); font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:rgba(240,244,248,.55); border:1px solid rgba(240,244,248,.2); padding:6px 11px" style-hover="color:#eef2f6; border-color:#eef2f6">CO · Español</a>
-        <a href="#pedir" style="font-family:var(--font-heading); font-weight:600; font-size:14px; letter-spacing:.06em; text-transform:uppercase; color:#0a0c0e; background:#ffffff; padding:10px 18px" style-hover="background:#c9cdd1">Valuation · $30</a>
+        <a href="/" style="font-family:var(--font-heading); font-size:13px; letter-spacing: .01em; color:#7b8592; border:1px solid #e5e8ee; padding:6px 11px" style-hover="color:#0a0e14; border-color:#7b8592">CO · Español</a>
+        <a href="#pedir" style="font-family:var(--font-heading); font-weight:600; font-size:14px; letter-spacing: .01em; color:#ffffff; background:#3d6d99; padding:10px 18px; border-radius:999px" style-hover="background:#28506f">Valuation · $30</a>
       </div>
     </div>
   </header>
 
   <section id="top" style="max-width:1200px; margin:0 auto; padding:64px 32px 40px; display:grid; grid-template-columns:repeat(auto-fit,minmax(360px,1fr)); gap:clamp(28px,4vw,56px); align-items:center">
     <div style="display:flex; flex-direction:column; gap:22px">
-      <span style="font-family:var(--font-heading); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#ffffff">United States · same-day delivery</span>
+      <span style="font-family:var(--font-heading); font-size:12px; letter-spacing: .01em; color:#3d6d99">United States · same-day delivery</span>
       <h1 style="font-family:var(--font-heading); font-weight:600; font-size:clamp(40px,5.4vw,66px); line-height:.97; letter-spacing:-.02em; margin:0">Know what it's worth<br>before you negotiate.</h1>
-      <p style="font-size:19px; line-height:1.5; margin:0; color:rgba(240,244,248,.7); max-width:38ch; text-wrap:pretty">We pull the real listings for your car, adjust them to your mileage and your type of sale, and hand you the number with its range.</p>
+      <p style="font-size:19px; line-height:1.5; margin:0; color:#4a5461; max-width:38ch; text-wrap:pretty">We pull the real listings for your car, adjust them to your mileage and your type of sale, and hand you the number with its range.</p>
       <div style="display:flex; gap:12px; flex-wrap:wrap; padding-top:6px">
-        <a href="#pedir" style="font-family:var(--font-heading); font-weight:600; font-size:16px; letter-spacing:.06em; text-transform:uppercase; color:#0a0c0e; background:#ffffff; padding:15px 26px" style-hover="background:#c9cdd1">Buy the report · $30</a>
-        <a href="#pedir" style="font-family:var(--font-heading); font-weight:600; font-size:16px; letter-spacing:.06em; text-transform:uppercase; color:#eef2f6; border:1px solid #eef2f6; padding:15px 26px" style-hover="background:rgba(240,244,248,.06)">Talk first</a>
+        <a href="#pedir" style="font-family:var(--font-heading); font-weight:600; font-size:16px; letter-spacing: .01em; color:#ffffff; background:#3d6d99; padding:15px 26px; border-radius:999px" style-hover="background:#28506f">Buy the report · $30</a>
+        <a href="#pedir" style="font-family:var(--font-heading); font-weight:600; font-size:16px; letter-spacing: .01em; color:#0a0e14; background:#ffffff; border:1px solid #d5dae2; border-radius:999px; padding:15px 26px" style-hover="background:#f7f8fa; border-color:#7b8592">Talk first</a>
       </div>
-      <div style="display:flex; gap:26px; padding-top:14px; border-top:1px solid rgba(240,244,248,.14); font-size:14px; color:rgba(240,244,248,.6)">
-        <span><strong style="font-family:var(--font-heading); font-size:22px; color:#eef2f6">PDF</strong> 1 page</span>
-        <span><strong style="font-family:var(--font-heading); font-size:22px; color:#eef2f6">Excel</strong> 6 sheets</span>
-        <span><strong style="font-family:var(--font-heading); font-size:22px; color:#eef2f6">±10%</strong> deviation</span>
+      <div style="display:flex; gap:26px; padding-top:14px; border-top:1px solid #e5e8ee; font-size:14px; color:#4a5461">
+        <span><strong style="font-family:var(--font-heading); font-size:22px; color:#0a0e14">PDF</strong> 1 page</span>
+        <span><strong style="font-family:var(--font-heading); font-size:22px; color:#0a0e14">Excel</strong> 6 sheets</span>
+        <span><strong style="font-family:var(--font-heading); font-size:22px; color:#0a0e14">±10%</strong> deviation</span>
       </div>
     </div>
 
-    <div class="blueprint" style="padding:30px 34px 26px; background:rgba(13,16,19,.74)">
+    <div class="blueprint" style="padding:30px 34px 26px; background:#f7f8fa; border-radius:14px">
       <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
       <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:22px">
-        <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#ffffff">Model demo</span>
-        <span style="font-size:12px; color:rgba(240,244,248,.5)">Real report · Mercedes-Benz G 550 2023 · U.S. market</span>
+        <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#3d6d99">Model demo</span>
+        <span style="font-size:12px; color:#7b8592">Real report · Mercedes-Benz G 550 2023 · U.S. market</span>
       </div>
 
       <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:6px">
         <div style="display:flex; flex-direction:column">
-          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:rgba(240,244,248,.5)">Estimated central value</span>
-          <div style="display:flex; align-items:baseline; gap:8px"><span style="font-family:var(--font-heading); font-weight:600; font-size:clamp(40px,4.6vw,60px); line-height:1; letter-spacing:-.02em">{{ demoCentral }}</span><span style="font-family:var(--font-heading); font-size:19px; color:rgba(240,244,248,.5)">USD</span></div>
+          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#7b8592">Estimated central value</span>
+          <div style="display:flex; align-items:baseline; gap:8px"><span style="font-family:var(--font-heading); font-weight:600; font-size:clamp(40px,4.6vw,60px); line-height:1; letter-spacing:-.02em">{{ demoCentral }}</span><span style="font-family:var(--font-heading); font-size:19px; color:#7b8592">USD</span></div>
         </div>
-        <span style="font-family:var(--font-heading); font-size:14px; letter-spacing:.06em; text-transform:uppercase; color:{{ demoTrendColor }}">{{ demoTrend }}</span>
+        <span style="font-family:var(--font-heading); font-size:14px; letter-spacing: .01em; color:{{ demoTrendColor }}">{{ demoTrend }}</span>
       </div>
 
       <svg sc-camel-view-box="0 0 640 74" style="width:100%; margin:10px 0 0; overflow:visible">
-        <line x1="20" y1="52" x2="620" y2="52" stroke="rgba(240,244,248,.18)" stroke-width="1"></line>
-        <g stroke="#eef2f6" stroke-width="4">
+        <line x1="20" y1="52" x2="620" y2="52" stroke="#e5e8ee" stroke-width="1"></line>
+        <g stroke="#0a0e14" stroke-width="4">
           <line x1="20" y1="34" x2="20" y2="70"></line>
           <line x1="620" y1="34" x2="620" y2="70"></line>
           <line x1="20" y1="52" x2="620" y2="52"></line>
         </g>
-        <rect x="{{ demoBlockX }}" y="30" width="26" height="44" fill="#ffffff"></rect>
-        <text x="20" y="22" text-anchor="start" font-family="Barlow Condensed" font-size="11" fill="rgba(240,244,248,.4)" letter-spacing="1.4">QUICK SALE</text>
-        <text x="620" y="22" text-anchor="end" font-family="Barlow Condensed" font-size="11" fill="rgba(240,244,248,.4)" letter-spacing="1.4">PATIENT SALE</text>
+        <rect x="{{ demoBlockX }}" y="30" width="26" height="44" fill="#3d6d99"></rect>
+        <text x="20" y="22" text-anchor="start" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#7b8592" letter-spacing="0">Quick sale</text>
+        <text x="620" y="22" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#7b8592" letter-spacing="0">Patient sale</text>
       </svg>
-      <div style="display:flex; justify-content:space-between; gap:12px; font-family:var(--font-heading); font-size:16px; color:rgba(240,244,248,.55)"><span>{{ demoLow }}</span><span>{{ demoHigh }}</span></div>
+      <div style="display:flex; justify-content:space-between; gap:12px; font-family:var(--font-heading); font-size:16px; color:#7b8592"><span>{{ demoLow }}</span><span>{{ demoHigh }}</span></div>
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:24px; margin-top:20px; padding-top:20px; border-top:1px solid rgba(240,244,248,.14)">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:24px; margin-top:20px; padding-top:20px; border-top:1px solid #e5e8ee">
         <label style="display:flex; flex-direction:column; gap:8px">
-          <span style="display:flex; justify-content:space-between; gap:10px; white-space:nowrap; font-family:var(--font-heading); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(240,244,248,.6)">Mileage <strong style="color:#eef2f6">{{ demoMiles }}</strong></span>
+          <span style="display:flex; justify-content:space-between; gap:10px; white-space:nowrap; font-family:var(--font-heading); font-size:12px; letter-spacing: .01em; color:#4a5461">Mileage <strong style="color:#0a0e14">{{ demoMiles }}</strong></span>
           <input type="range" min="20000" max="80000" step="1000" value="{{ miles }}" sc-camel-on-change="{{ onMiles }}" sc-camel-on-input="{{ onMiles }}" style="width:100%"><span class="vtc-pista"><i>&#8596;</i>Drag to change the mileage</span>
         </label>
         <div style="display:flex; flex-direction:column; gap:8px">
-          <span style="font-family:var(--font-heading); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(240,244,248,.6)">Who is selling</span>
-          <div style="display:flex; flex-wrap:wrap; border:1px solid rgba(240,244,248,.2)">
+          <span style="font-family:var(--font-heading); font-size:12px; letter-spacing: .01em; color:#4a5461">Who is selling</span>
+          <div style="display:flex; flex-wrap:wrap; border:1px solid #e5e8ee">
             <button sc-camel-on-click="{{ setPart }}" style="{{ segPart }}">Private</button>
             <button sc-camel-on-click="{{ setConc }}" style="{{ segConc }}">Dealer</button>
             <button sc-camel-on-click="{{ setCert }}" style="{{ segCert }}">Certified</button>
           </div>
         </div>
       </div>
-      <p style="font-size:12.5px; line-height:1.5; color:rgba(240,244,248,.5); margin:16px 0 0">Move the variables and watch the model work: every 1,000 miles is worth 0.43%, and selling privately costs 9% against a dealer. Coefficients taken from the 26 comparables in that report.</p>
+      <p style="font-size:12.5px; line-height:1.5; color:#7b8592; margin:16px 0 0">Move the variables and watch the model work: every 1,000 miles is worth 0.43%, and selling privately costs 9% against a dealer. Coefficients taken from the 26 comparables in that report.</p>
     </div>
   </section>
 
   <section style="max-width:1200px; margin:0 auto; padding:26px 32px 70px">
-    <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap; border-top:1px solid rgba(240,244,248,.14); border-bottom:1px solid rgba(240,244,248,.14); padding:16px 0">
-      <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:rgba(240,244,248,.5)">We search</span>
-      <span style="font-family:var(--font-heading); font-size:19px; letter-spacing:.02em">Cars.com</span>
-      <span style="font-family:var(--font-heading); font-size:19px; letter-spacing:.02em">Autotrader</span>
-      <span style="font-family:var(--font-heading); font-size:19px; letter-spacing:.02em">Facebook Marketplace</span>
-      <span style="font-family:var(--font-heading); font-size:19px; letter-spacing:.02em">CarGurus</span>
-      <span style="margin-left:auto; font-size:13px; color:rgba(240,244,248,.55)">and the other major listing sites</span>
+    <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap; border-top:1px solid #e5e8ee; border-bottom:1px solid #e5e8ee; padding:16px 0">
+      <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#7b8592">We search</span>
+      <span style="font-family:var(--font-heading); font-size:19px; letter-spacing: .01em">Cars.com</span>
+      <span style="font-family:var(--font-heading); font-size:19px; letter-spacing: .01em">Autotrader</span>
+      <span style="font-family:var(--font-heading); font-size:19px; letter-spacing: .01em">Facebook Marketplace</span>
+      <span style="font-family:var(--font-heading); font-size:19px; letter-spacing: .01em">CarGurus</span>
+      <span style="margin-left:auto; font-size:13px; color:#7b8592">and the other major listing sites</span>
     </div>
   </section>
 
-  <section id="mercado" style="background:rgba(6,8,10,.66); color:#f4f7fa; padding:72px 32px">
+  <section id="mercado" style="background:#f7f8fa; color:#0a0e14; padding:72px 32px; border-radius:14px">
     <div style="max-width:1200px; margin:0 auto; display:flex; flex-direction:column; gap:32px">
       <div style="display:flex; align-items:flex-end; gap:24px; flex-wrap:wrap">
         <div style="display:flex; flex-direction:column; gap:10px">
-          <span style="font-family:var(--font-heading); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#ffffff">How it is calculated</span>
+          <span style="font-family:var(--font-heading); font-size:12px; letter-spacing: .01em; color:#3d6d99">How it is calculated</span>
           <h2 style="font-family:var(--font-heading); font-weight:600; font-size:clamp(32px,3.6vw,44px); line-height:1; margin:0">The 26 listings behind one number</h2>
-          <span style="font-size:13px; color:rgba(255,255,255,.5)">A real U.S.-market report, in USD, from U.S. listing sites.</span>
+          <span style="font-size:13px; color:#7b8592">A real U.S.-market report, in USD, from U.S. listing sites.</span>
         </div>
-        <div style="margin-left:auto; display:flex; flex-wrap:wrap; border:1px solid rgba(255,255,255,.25)">
+        <div style="margin-left:auto; display:flex; flex-wrap:wrap; border:1px solid #e5e8ee">
           <button sc-camel-on-click="{{ setPub }}" style="{{ segPub }}">Listed price</button>
           <button sc-camel-on-click="{{ setAdj }}" style="{{ segAdj }}">Adjusted to your car</button>
         </div>
@@ -767,65 +796,65 @@ textarea.input { min-height: 90px; resize: vertical; }
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(380px,1fr)); gap:40px; align-items:start">
         <div style="position:relative">
           <svg sc-camel-view-box="0 0 700 400" style="width:100%; overflow:visible" sc-camel-on-mouse-leave="{{ clearHover }}">
-            <g stroke="rgba(255,255,255,.13)" stroke-width="1">
+            <g stroke="#e5e8ee" stroke-width="1">
               <line x1="56" y1="30" x2="56" y2="350"></line>
               <line x1="56" y1="350" x2="690" y2="350"></line>
             </g>
             <sc-for list="{{ yTicks }}" as="t" hint-placeholder-count="4">
-              <line x1="56" y1="{{ t.gy }}" x2="690" y2="{{ t.gy }}" stroke="rgba(255,255,255,.13)" stroke-width="1" stroke-dasharray="2 6"></line>
+              <line x1="56" y1="{{ t.gy }}" x2="690" y2="{{ t.gy }}" stroke="#e5e8ee" stroke-width="1" stroke-dasharray="2 6"></line>
             </sc-for>
-            <g font-family="Barlow Condensed" font-size="13" fill="rgba(255,255,255,.45)" letter-spacing="1">
+            <g font-family="Inter, system-ui, sans-serif" font-size="13" fill="#7b8592" letter-spacing="0">
               <text x="56" y="378">20,000 mi</text>
               <text x="690" y="378" text-anchor="end">75,000 mi</text>
             </g>
-            <line x1="{{ ownX }}" y1="24" x2="{{ ownX }}" y2="350" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="5 4"></line>
-            <text x="{{ ownLabelX }}" y="20" font-family="Barlow Condensed" font-size="12" fill="#ffffff" letter-spacing="1.4">YOUR CAR · 50,000 mi</text>
+            <line x1="{{ ownX }}" y1="24" x2="{{ ownX }}" y2="350" stroke="#3d6d99" stroke-width="1.5" stroke-dasharray="5 4"></line>
+            <text x="{{ ownLabelX }}" y="20" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#3d6d99" letter-spacing="0">Your car · 50,000 mi</text>
             <sc-for list="{{ points }}" as="p" hint-placeholder-count="25">
-              <rect x="{{ p.x }}" y="{{ p.y }}" width="11" height="11" fill="{{ p.fill }}" stroke="rgba(255,255,255,.55)" stroke-width="1.5" style="transition:y .5s cubic-bezier(.4,0,.2,1), fill .3s; cursor:crosshair" sc-camel-on-mouse-enter="{{ p.enter }}"></rect>
+              <rect x="{{ p.x }}" y="{{ p.y }}" width="11" height="11" fill="{{ p.fill }}" stroke="#3d6d99" stroke-width="1.5" style="transition:y .5s cubic-bezier(.4,0,.2,1), fill .3s; cursor:crosshair" sc-camel-on-mouse-enter="{{ p.enter }}"></rect>
             </sc-for>
           </svg>
           <sc-for list="{{ yTicks }}" as="t" hint-placeholder-count="4">
             <span style="{{ t.labelStyle }}">{{ t.label }}</span>
           </sc-for>
           <div style="{{ tipStyle }}">
-            <span style="font-family:var(--font-heading); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#ffffff">{{ tipId }}</span>
+            <span style="font-family:var(--font-heading); font-size:12px; letter-spacing: .01em; color:#3d6d99">{{ tipId }}</span>
             <span style="font-family:var(--font-heading); font-weight:600; font-size:24px; line-height:1">{{ tipPrice }}</span>
-            <span style="font-size:12.5px; color:rgba(255,255,255,.7)">{{ tipMeta }}</span>
+            <span style="font-size:12.5px; color:#4a5461">{{ tipMeta }}</span>
           </div>
         </div>
 
-        <div style="display:flex; flex-direction:column; gap:0; border:1px solid rgba(255,255,255,.2)">
-          <div style="padding:18px 20px; border-bottom:1px solid rgba(255,255,255,.2); display:flex; flex-direction:column; gap:3px">
-            <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.5)">{{ statTitle }}</span>
+        <div style="display:flex; flex-direction:column; gap:0; border:1px solid #e5e8ee">
+          <div style="padding:18px 20px; border-bottom:1px solid #e5e8ee; display:flex; flex-direction:column; gap:3px">
+            <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#7b8592">{{ statTitle }}</span>
             <span style="font-family:var(--font-heading); font-weight:600; font-size:40px; line-height:1.05">{{ statValue }}</span>
-            <span style="font-size:13px; color:rgba(255,255,255,.6)">{{ statNote }}</span>
+            <span style="font-size:13px; color:#4a5461">{{ statNote }}</span>
           </div>
           <div style="display:grid; grid-template-columns:1fr 1fr">
-            <div style="padding:14px 20px; border-right:1px solid rgba(255,255,255,.2); border-bottom:1px solid rgba(255,255,255,.2)"><span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.5); display:block">25th percentile</span><span style="font-family:var(--font-heading); font-size:24px">{{ statP25 }}</span></div>
-            <div style="padding:14px 20px; border-bottom:1px solid rgba(255,255,255,.2)"><span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.5); display:block">75th percentile</span><span style="font-family:var(--font-heading); font-size:24px">{{ statP75 }}</span></div>
-            <div style="padding:14px 20px; border-right:1px solid rgba(255,255,255,.2); border-bottom:1px solid rgba(255,255,255,.2)"><span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.5); display:block">Dispersion</span><span style="font-family:var(--font-heading); font-size:24px">{{ statDisp }}</span></div>
-            <div style="padding:14px 20px; border-bottom:1px solid rgba(255,255,255,.2)"><span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.5); display:block">Listings</span><span style="font-family:var(--font-heading); font-size:24px">26</span></div>
+            <div style="padding:14px 20px; border-right:1px solid #e5e8ee; border-bottom:1px solid #e5e8ee"><span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#7b8592; display:block">25th percentile</span><span style="font-family:var(--font-heading); font-size:24px">{{ statP25 }}</span></div>
+            <div style="padding:14px 20px; border-bottom:1px solid #e5e8ee"><span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#7b8592; display:block">75th percentile</span><span style="font-family:var(--font-heading); font-size:24px">{{ statP75 }}</span></div>
+            <div style="padding:14px 20px; border-right:1px solid #e5e8ee; border-bottom:1px solid #e5e8ee"><span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#7b8592; display:block">Dispersion</span><span style="font-family:var(--font-heading); font-size:24px">{{ statDisp }}</span></div>
+            <div style="padding:14px 20px; border-bottom:1px solid #e5e8ee"><span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#7b8592; display:block">Listings</span><span style="font-family:var(--font-heading); font-size:24px">26</span></div>
           </div>
           <div style="padding:18px 20px; display:flex; flex-direction:column; gap:10px">
-            <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.5)">Adjustments we apply</span>
-            <div style="display:flex; justify-content:space-between; font-size:14px"><span style="color:rgba(255,255,255,.75)">Mileage vs. median</span><span style="font-family:var(--font-heading); font-size:17px">−0.43% / 1,000 mi</span></div>
-            <div style="display:flex; justify-content:space-between; font-size:14px"><span style="color:rgba(255,255,255,.75)">Private sale</span><span style="font-family:var(--font-heading); font-size:17px">−9%</span></div>
-            <div style="display:flex; justify-content:space-between; font-size:14px"><span style="color:rgba(255,255,255,.75)">Unverified history</span><span style="font-family:var(--font-heading); font-size:17px">−1.5%</span></div>
-            <div style="display:flex; justify-content:space-between; font-size:14px"><span style="color:rgba(255,255,255,.75)">Falling market</span><span style="font-family:var(--font-heading); font-size:17px">−1.8% / month</span></div>
+            <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#7b8592">Adjustments we apply</span>
+            <div style="display:flex; justify-content:space-between; font-size:14px"><span style="color:#4a5461">Mileage vs. median</span><span style="font-family:var(--font-heading); font-size:17px">−0.43% / 1,000 mi</span></div>
+            <div style="display:flex; justify-content:space-between; font-size:14px"><span style="color:#4a5461">Private sale</span><span style="font-family:var(--font-heading); font-size:17px">−9%</span></div>
+            <div style="display:flex; justify-content:space-between; font-size:14px"><span style="color:#4a5461">Unverified history</span><span style="font-family:var(--font-heading); font-size:17px">−1.5%</span></div>
+            <div style="display:flex; justify-content:space-between; font-size:14px"><span style="color:#4a5461">Falling market</span><span style="font-family:var(--font-heading); font-size:17px">−1.8% / month</span></div>
           </div>
         </div>
       </div>
-      <p style="font-size:13px; color:rgba(255,255,255,.45); margin:0; max-width:80ch">Every square is a real listing. Filled means factory-certified; outlined means dealer. Asking prices as published, not confirmed transaction prices.</p>
+      <p style="font-size:13px; color:#7b8592; margin:0; max-width:80ch">Every square is a real listing. Filled means factory-certified; outlined means dealer. Asking prices as published, not confirmed transaction prices.</p>
     </div>
   </section>
 
   <section id="informe" style="max-width:1200px; margin:0 auto; padding:76px 32px">
     <div style="display:flex; align-items:flex-end; gap:24px; flex-wrap:wrap; margin-bottom:30px">
       <div style="display:flex; flex-direction:column; gap:10px">
-        <span style="font-family:var(--font-heading); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#ffffff">What you get</span>
+        <span style="font-family:var(--font-heading); font-size:12px; letter-spacing: .01em; color:#3d6d99">What you get</span>
         <h2 style="font-family:var(--font-heading); font-weight:600; font-size:clamp(32px,3.6vw,44px); line-height:1; margin:0">Look inside the deliverable</h2>
       </div>
-      <div style="margin-left:auto; display:flex; flex-wrap:wrap; border:1px solid rgba(240,244,248,.2)">
+      <div style="margin-left:auto; display:flex; flex-wrap:wrap; border:1px solid #e5e8ee">
         <button sc-camel-on-click="{{ setPdf }}" style="{{ segPdf }}">PDF · summary</button>
         <button sc-camel-on-click="{{ setXls }}" style="{{ segXls }}">Excel · 6 sheets</button>
       </div>
@@ -833,93 +862,93 @@ textarea.input { min-height: 90px; resize: vertical; }
 
     <sc-if value="{{ isPdf }}" hint-placeholder-val="{{ true }}">
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(330px,1fr)); gap:28px; align-items:start">
-        <div class="blueprint" style="background:rgba(13,16,19,.74); display:flex; flex-direction:column; padding:30px 32px; gap:14px">
+        <div class="blueprint" style="background:#f7f8fa; display:flex; flex-direction:column; padding:30px 32px; gap:14px; border-radius:14px">
           <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-          <div style="display:flex; align-items:center; gap:9px; padding-bottom:12px; border-bottom:1px solid rgba(240,244,248,.16)">
-            <svg sc-camel-view-box="0 0 32 32" style="width:20px; height:20px"><g stroke="#eef2f6" stroke-width="3"><line x1="4" y1="8" x2="4" y2="24"></line><line x1="28" y1="8" x2="28" y2="24"></line><line x1="4" y1="16" x2="28" y2="16"></line></g><rect x="13" y="10" width="6" height="12" fill="#ffffff"></rect></svg>
-            <span style="font-family:var(--font-heading); font-weight:600; font-size:15px">{{ brandA }}<span style="color:#ffffff">.AI</span></span>
-            <span style="margin-left:auto; font-family:var(--font-heading); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.5)">Valuation report</span>
+          <div style="display:flex; align-items:center; gap:9px; padding-bottom:12px; border-bottom:1px solid #e5e8ee">
+            <svg sc-camel-view-box="0 0 32 32" style="width:20px; height:20px"><g stroke="#0a0e14" stroke-width="3"><line x1="4" y1="8" x2="4" y2="24"></line><line x1="28" y1="8" x2="28" y2="24"></line><line x1="4" y1="16" x2="28" y2="16"></line></g><rect x="13" y="10" width="6" height="12" fill="#3d6d99"></rect></svg>
+            <span style="font-family:var(--font-heading); font-weight:600; font-size:15px">{{ brandA }}<span style="color:#3d6d99">.AI</span></span>
+            <span style="margin-left:auto; font-family:var(--font-heading); font-size:10px; letter-spacing: .01em; color:#7b8592">Valuation report</span>
           </div>
           <div style="display:flex; flex-direction:column; gap:2px">
-            <span style="font-family:var(--font-heading); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.5)">Executive summary · one page</span>
+            <span style="font-family:var(--font-heading); font-size:10px; letter-spacing: .01em; color:#7b8592">Executive summary · one page</span>
             <span style="font-family:var(--font-heading); font-weight:600; font-size:30px; line-height:1.05">Mercedes-Benz G 550</span>
-            <span style="font-size:12px; color:rgba(240,244,248,.6)">2023 · W463A · V8 4.0 biturbo · 4MATIC · 50,000 mi</span>
+            <span style="font-size:12px; color:#4a5461">2023 · W463A · V8 4.0 biturbo · 4MATIC · 50,000 mi</span>
           </div>
           <div style="display:flex; align-items:flex-end; gap:16px; flex-wrap:wrap; padding-top:4px">
             <div style="display:flex; flex-direction:column">
-              <span style="font-family:var(--font-heading); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:#ffffff">Estimated value</span>
+              <span style="font-family:var(--font-heading); font-size:10px; letter-spacing: .01em; color:#3d6d99">Estimated value</span>
               <div style="display:flex; align-items:baseline; gap:7px">
                 <span style="font-family:var(--font-heading); font-weight:600; font-size:clamp(38px,4.4vw,54px); line-height:1; letter-spacing:-.02em">$108,720</span>
-                <span style="font-family:var(--font-heading); font-size:17px; color:rgba(240,244,248,.5)">USD</span>
+                <span style="font-family:var(--font-heading); font-size:17px; color:#7b8592">USD</span>
               </div>
             </div>
-            <span style="font-size:12px; color:rgba(240,244,248,.6); padding-bottom:6px">High confidence · 26 comparables</span>
+            <span style="font-size:12px; color:#4a5461; padding-bottom:6px">High confidence · 26 comparables</span>
           </div>
           <svg sc-camel-view-box="0 0 620 62" style="width:100%; overflow:visible">
-            <g stroke="#eef2f6" stroke-width="3.5">
+            <g stroke="#0a0e14" stroke-width="3.5">
               <line x1="10" y1="16" x2="10" y2="44"></line>
               <line x1="610" y1="16" x2="610" y2="44"></line>
               <line x1="10" y1="30" x2="610" y2="30"></line>
             </g>
-            <rect x="297" y="13" width="26" height="34" fill="#ffffff"></rect>
-            <text x="10" y="60" font-family="Barlow Condensed" font-size="14" fill="rgba(240,244,248,.55)">$103,284</text>
-            <text x="610" y="60" text-anchor="end" font-family="Barlow Condensed" font-size="14" fill="rgba(240,244,248,.55)">$114,156</text>
+            <rect x="297" y="13" width="26" height="34" fill="#3d6d99"></rect>
+            <text x="10" y="60" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#7b8592">$103,284</text>
+            <text x="610" y="60" text-anchor="end" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#7b8592">$114,156</text>
           </svg>
-          <div style="display:grid; grid-template-columns:repeat(3,1fr); border:1px solid rgba(240,244,248,.16)">
-            <div style="padding:11px 13px; border-right:1px solid rgba(240,244,248,.16)"><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.5); display:block">Low value</span><span style="font-family:var(--font-heading); font-size:22px">$103,284</span></div>
-            <div style="padding:11px 13px; border-right:1px solid rgba(240,244,248,.16); background:rgba(255,255,255,.24)"><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.5); color:#ffffff; display:block">Central value</span><span style="font-family:var(--font-heading); font-size:22px">$108,720</span></div>
-            <div style="padding:11px 13px"><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.5); display:block">High value</span><span style="font-family:var(--font-heading); font-size:22px">$114,156</span></div>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); border:1px solid #e5e8ee">
+            <div style="padding:11px 13px; border-right:1px solid #e5e8ee"><span style="font-size:10px; letter-spacing: .01em; color:#7b8592; display:block">Low value</span><span style="font-family:var(--font-heading); font-size:22px">$103,284</span></div>
+            <div style="padding:11px 13px; border-right:1px solid #e5e8ee; background:#e5e8ee"><span style="font-size:10px; letter-spacing: .01em; color:#7b8592; color:#3d6d99; display:block">Central value</span><span style="font-family:var(--font-heading); font-size:22px">$108,720</span></div>
+            <div style="padding:11px 13px"><span style="font-size:10px; letter-spacing: .01em; color:#7b8592; display:block">High value</span><span style="font-family:var(--font-heading); font-size:22px">$114,156</span></div>
           </div>
-          <span style="font-family:var(--font-heading); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.5); padding-top:2px">Recommended prices</span>
-          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:1px; background:rgba(240,244,248,.16); border:1px solid rgba(240,244,248,.16)">
-            <div style="background:rgba(13,16,19,.74); padding:10px 12px; display:flex; flex-direction:column"><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.5)">List at</span><span style="font-family:var(--font-heading); font-size:19px">$115,243</span><span style="font-size:11px; color:rgba(240,244,248,.55)">6% margin</span></div>
-            <div style="background:rgba(13,16,19,.74); padding:10px 12px; display:flex; flex-direction:column"><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.5)">Expected close</span><span style="font-family:var(--font-heading); font-size:19px">$104,371</span><span style="font-size:11px; color:rgba(240,244,248,.55)">after negotiating</span></div>
-            <div style="background:rgba(13,16,19,.74); padding:10px 12px; display:flex; flex-direction:column"><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.5)">Quick sale</span><span style="font-family:var(--font-heading); font-size:19px">$101,110</span><span style="font-size:11px; color:rgba(240,244,248,.55)">~30 days</span></div>
-            <div style="background:rgba(13,16,19,.74); padding:10px 12px; display:flex; flex-direction:column"><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.5)">Patient sale</span><span style="font-family:var(--font-heading); font-size:19px">$114,156</span><span style="font-size:11px; color:rgba(240,244,248,.55)">+120 days</span></div>
+          <span style="font-family:var(--font-heading); font-size:10px; letter-spacing: .01em; color:#7b8592; padding-top:2px">Recommended prices</span>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:1px; background:#e5e8ee; border:1px solid #e5e8ee">
+            <div style="background:#f7f8fa; padding:10px 12px; display:flex; flex-direction:column; border-radius:14px"><span style="font-size:10px; letter-spacing: .01em; color:#7b8592">List at</span><span style="font-family:var(--font-heading); font-size:19px">$115,243</span><span style="font-size:11px; color:#7b8592">6% margin</span></div>
+            <div style="background:#f7f8fa; padding:10px 12px; display:flex; flex-direction:column; border-radius:14px"><span style="font-size:10px; letter-spacing: .01em; color:#7b8592">Expected close</span><span style="font-family:var(--font-heading); font-size:19px">$104,371</span><span style="font-size:11px; color:#7b8592">after negotiating</span></div>
+            <div style="background:#f7f8fa; padding:10px 12px; display:flex; flex-direction:column; border-radius:14px"><span style="font-size:10px; letter-spacing: .01em; color:#7b8592">Quick sale</span><span style="font-family:var(--font-heading); font-size:19px">$101,110</span><span style="font-size:11px; color:#7b8592">~30 days</span></div>
+            <div style="background:#f7f8fa; padding:10px 12px; display:flex; flex-direction:column; border-radius:14px"><span style="font-size:10px; letter-spacing: .01em; color:#7b8592">Patient sale</span><span style="font-family:var(--font-heading); font-size:19px">$114,156</span><span style="font-size:11px; color:#7b8592">+120 days</span></div>
           </div>
           <div style="display:grid; grid-template-columns:1.5fr 1fr; gap:16px; align-items:center; padding-top:4px">
             <div style="display:flex; flex-direction:column; gap:5px">
-              <span style="font-family:var(--font-heading); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.5)">Position in the market</span>
+              <span style="font-family:var(--font-heading); font-size:10px; letter-spacing: .01em; color:#7b8592">Position in the market</span>
               <svg sc-camel-view-box="0 0 400 130" style="width:100%">
-                <g stroke="rgba(240,244,248,.14)"><line x1="26" y1="6" x2="26" y2="110"></line><line x1="26" y1="110" x2="394" y2="110"></line></g>
+                <g stroke="#e5e8ee"><line x1="26" y1="6" x2="26" y2="110"></line><line x1="26" y1="110" x2="394" y2="110"></line></g>
                 <sc-for list="{{ miniPoints }}" as="m" hint-placeholder-count="25">
-                  <rect x="{{ m.x }}" y="{{ m.y }}" width="6" height="6" fill="none" stroke="#ffffff" stroke-width="1.3"></rect>
+                  <rect x="{{ m.x }}" y="{{ m.y }}" width="6" height="6" fill="none" stroke="#3d6d99" stroke-width="1.3"></rect>
                 </sc-for>
-                <line x1="{{ miniOwnX }}" y1="4" x2="{{ miniOwnX }}" y2="110" stroke="#eef2f6" stroke-width="1" stroke-dasharray="4 3"></line>
+                <line x1="{{ miniOwnX }}" y1="4" x2="{{ miniOwnX }}" y2="110" stroke="#0a0e14" stroke-width="1" stroke-dasharray="4 3"></line>
               </svg>
             </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(240,244,248,.16); border:1px solid rgba(240,244,248,.16)">
-              <div style="background:rgba(13,16,19,.74); padding:8px 10px"><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.5); display:block">Median</span><span style="font-family:var(--font-heading); font-size:16px">$108,842</span></div>
-              <div style="background:rgba(13,16,19,.74); padding:8px 10px"><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.5); display:block">Dispersion</span><span style="font-family:var(--font-heading); font-size:16px">3,0%</span></div>
-              <div style="background:rgba(13,16,19,.74); padding:8px 10px"><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.5); display:block">P25</span><span style="font-family:var(--font-heading); font-size:16px">$106,067</span></div>
-              <div style="background:rgba(13,16,19,.74); padding:8px 10px"><span style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.5); display:block">P75</span><span style="font-family:var(--font-heading); font-size:16px">$112,586</span></div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:#e5e8ee; border:1px solid #e5e8ee">
+              <div style="background:#f7f8fa; padding:8px 10px; border-radius:14px"><span style="font-size:10px; letter-spacing: .01em; color:#7b8592; display:block">Median</span><span style="font-family:var(--font-heading); font-size:16px">$108,842</span></div>
+              <div style="background:#f7f8fa; padding:8px 10px; border-radius:14px"><span style="font-size:10px; letter-spacing: .01em; color:#7b8592; display:block">Dispersion</span><span style="font-family:var(--font-heading); font-size:16px">3,0%</span></div>
+              <div style="background:#f7f8fa; padding:8px 10px; border-radius:14px"><span style="font-size:10px; letter-spacing: .01em; color:#7b8592; display:block">P25</span><span style="font-family:var(--font-heading); font-size:16px">$106,067</span></div>
+              <div style="background:#f7f8fa; padding:8px 10px; border-radius:14px"><span style="font-size:10px; letter-spacing: .01em; color:#7b8592; display:block">P75</span><span style="font-family:var(--font-heading); font-size:16px">$112,586</span></div>
             </div>
           </div>
-          <div style="border-left:3px solid #ffffff; padding:2px 0 2px 13px">
+          <div style="border-left:3px solid #3d6d99; padding:2px 0 2px 13px">
             <span style="font-family:var(--font-heading); font-size:15px; display:block; margin-bottom:3px">The market is falling</span>
-            <span style="font-size:12px; line-height:1.5; color:rgba(240,244,248,.7)">12 of 12 listings with price history cut their price: 3.7% over 2.1 months. Every month of delay costs about $1,925.</span>
+            <span style="font-size:12px; line-height:1.5; color:#4a5461">12 of 12 listings with price history cut their price: 3.7% over 2.1 months. Every month of delay costs about $1,925.</span>
           </div>
-          <span style="font-size:10.5px; color:rgba(240,244,248,.45); border-top:1px solid rgba(240,244,248,.16); padding-top:10px">Summary of the 6-sheet Excel file. Published asking prices, not confirmed transactions.</span>
+          <span style="font-size:10.5px; color:#7b8592; border-top:1px solid #e5e8ee; padding-top:10px">Summary of the 6-sheet Excel file. Published asking prices, not confirmed transactions.</span>
         </div>
 
         <div style="display:flex; flex-direction:column; gap:18px">
           <div style="display:flex; flex-direction:column; gap:10px">
-            <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#ffffff">How it is delivered</span>
+            <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#3d6d99">How it is delivered</span>
             <span style="font-family:var(--font-heading); font-weight:600; font-size:28px; line-height:1.05">A one-page PDF and the full Excel</span>
-            <p style="margin:0; font-size:15px; line-height:1.55; color:rgba(240,244,248,.7); text-wrap:pretty">The PDF is the dashboard: what it is worth, in what range, what to list it at and what the market is doing. Everything underneath — the 26 listings, the coefficients, the statistics and the linked sources — travels in the 6-sheet Excel, with open cells so you can recalculate.</p>
+            <p style="margin:0; font-size:15px; line-height:1.55; color:#4a5461; text-wrap:pretty">The PDF is the dashboard: what it is worth, in what range, what to list it at and what the market is doing. Everything underneath — the 26 listings, the coefficients, the statistics and the linked sources — travels in the 6-sheet Excel, with open cells so you can recalculate.</p>
           </div>
-          <div style="display:flex; flex-direction:column; border:1px solid rgba(240,244,248,.16)">
-            <div style="padding:15px 17px; border-bottom:1px solid rgba(240,244,248,.16); display:flex; align-items:center; gap:13px">
-              <svg sc-camel-view-box="0 0 24 24" width="19" height="19" fill="none" stroke="#ffffff" stroke-width="1.5"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5"></path></svg>
-              <div style="display:flex; flex-direction:column"><span style="font-family:var(--font-heading); font-size:17px">PDF · 1 page</span><span style="font-size:13px; color:rgba(240,244,248,.6)">To decide, and to show the buyer</span></div>
+          <div style="display:flex; flex-direction:column; border:1px solid #e5e8ee">
+            <div style="padding:15px 17px; border-bottom:1px solid #e5e8ee; display:flex; align-items:center; gap:13px">
+              <svg sc-camel-view-box="0 0 24 24" width="19" height="19" fill="none" stroke="#3d6d99" stroke-width="1.5"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5"></path></svg>
+              <div style="display:flex; flex-direction:column"><span style="font-family:var(--font-heading); font-size:17px">PDF · 1 page</span><span style="font-size:13px; color:#4a5461">To decide, and to show the buyer</span></div>
             </div>
             <div style="padding:15px 17px; display:flex; align-items:center; gap:13px">
-              <svg sc-camel-view-box="0 0 24 24" width="19" height="19" fill="none" stroke="#ffffff" stroke-width="1.5"><rect x="3" y="4" width="18" height="16"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="9" y1="10" x2="9" y2="20"></line></svg>
-              <div style="display:flex; flex-direction:column"><span style="font-family:var(--font-heading); font-size:17px">Excel · 6 sheets</span><span style="font-size:13px; color:rgba(240,244,248,.6)">To audit the number and change assumptions</span></div>
+              <svg sc-camel-view-box="0 0 24 24" width="19" height="19" fill="none" stroke="#3d6d99" stroke-width="1.5"><rect x="3" y="4" width="18" height="16"></rect><line x1="3" y1="10" x2="21" y2="10"></line><line x1="9" y1="10" x2="9" y2="20"></line></svg>
+              <div style="display:flex; flex-direction:column"><span style="font-family:var(--font-heading); font-size:17px">Excel · 6 sheets</span><span style="font-size:13px; color:#4a5461">To audit the number and change assumptions</span></div>
             </div>
           </div>
-          <a href="#pedir" style="font-family:var(--font-heading); font-weight:600; font-size:15px; letter-spacing:.06em; text-transform:uppercase; color:#0a0c0e; background:#ffffff; padding:14px 20px; text-align:center" style-hover="background:#c9cdd1">Buy for $30 USD</a>
-          <span style="font-size:12.5px; line-height:1.5; color:rgba(240,244,248,.55)">This example is a real U.S.-market report — every figure in USD and miles.</span>
+          <a href="#pedir" style="font-family:var(--font-heading); font-weight:600; font-size:15px; letter-spacing: .01em; color:#ffffff; background:#3d6d99; padding:14px 20px; text-align:center; border-radius:999px" style-hover="background:#28506f">Buy for $30 USD</a>
+          <span style="font-size:12.5px; line-height:1.5; color:#7b8592">This example is a real U.S.-market report — every figure in USD and miles.</span>
         </div>
       </div>
     </sc-if>
@@ -929,24 +958,24 @@ textarea.input { min-height: 90px; resize: vertical; }
         <div style="display:flex; flex-direction:column; gap:10px">
           <sc-for list="{{ sheets }}" as="s" hint-placeholder-count="6">
             <button sc-camel-on-click="{{ s.go }}" style="{{ s.style }}">
-              <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:rgba(240,244,248,.45)">Sheet {{ s.n }}</span>
+              <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#7b8592">Sheet {{ s.n }}</span>
               <span style="font-family:var(--font-heading); font-size:15px; line-height:1.1; text-align:left">{{ s.label }}</span>
             </button>
           </sc-for>
         </div>
-        <div class="blueprint" style="background:rgba(13,16,19,.74); padding:26px 30px; min-height:520px; display:flex; flex-direction:column; gap:16px">
+        <div class="blueprint" style="background:#f7f8fa; padding:26px 30px; min-height:520px; display:flex; flex-direction:column; gap:16px; border-radius:14px">
           <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
           <div style="display:flex; align-items:baseline; gap:12px">
             <span style="font-family:var(--font-heading); font-weight:600; font-size:24px">{{ sheetTitle }}</span>
-            <span style="font-size:13px; color:rgba(240,244,248,.55)">{{ sheetNote }}</span>
+            <span style="font-size:13px; color:#7b8592">{{ sheetNote }}</span>
           </div>
           <sc-if value="{{ isKvSheet }}" hint-placeholder-val="{{ false }}">
-            <div style="border:1px solid rgba(240,244,248,.16)">
+            <div style="border:1px solid #e5e8ee">
               <sc-raw-table style="width:100%; border-collapse:collapse; font-size:13.5px">
                 <sc-raw-tbody>
                   <sc-for list="{{ kvRows }}" as="k" hint-placeholder-count="6">
                     <sc-raw-tr style="{{ k.rowStyle }}">
-                      <sc-raw-td style="padding:10px 14px; color:rgba(240,244,248,.75)">{{ k.k }}</sc-raw-td>
+                      <sc-raw-td style="padding:10px 14px; color:#4a5461">{{ k.k }}</sc-raw-td>
                       <sc-raw-td style="padding:10px 14px; text-align:right; font-family:var(--font-heading); font-size:18px">{{ k.v }}</sc-raw-td>
                     </sc-raw-tr>
                   </sc-for>
@@ -955,117 +984,117 @@ textarea.input { min-height: 90px; resize: vertical; }
             </div>
           </sc-if>
           <sc-if value="{{ isCompSheet }}" hint-placeholder-val="{{ true }}">
-          <div style="overflow:hidden; border:1px solid rgba(240,244,248,.16)">
+          <div style="overflow:hidden; border:1px solid #e5e8ee">
             <sc-raw-table style="width:100%; border-collapse:collapse; font-size:12.5px">
               <sc-raw-thead>
-                <sc-raw-tr style="background:rgba(240,244,248,.05)">
-                  <sc-raw-th style="text-align:left; padding:8px 10px; font-family:var(--font-heading); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:rgba(240,244,248,.55); border-bottom:1px solid rgba(240,244,248,.16)">ID</sc-raw-th>
-                  <sc-raw-th style="text-align:right; padding:8px 10px; font-family:var(--font-heading); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:rgba(240,244,248,.55); border-bottom:1px solid rgba(240,244,248,.16)">Mileage</sc-raw-th>
-                  <sc-raw-th style="text-align:left; padding:8px 10px; font-family:var(--font-heading); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:rgba(240,244,248,.55); border-bottom:1px solid rgba(240,244,248,.16)">Seller</sc-raw-th>
-                  <sc-raw-th style="text-align:left; padding:8px 10px; font-family:var(--font-heading); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:rgba(240,244,248,.55); border-bottom:1px solid rgba(240,244,248,.16)">History</sc-raw-th>
-                  <sc-raw-th style="text-align:right; padding:8px 10px; font-family:var(--font-heading); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:rgba(240,244,248,.55); border-bottom:1px solid rgba(240,244,248,.16)">Listed</sc-raw-th>
-                  <sc-raw-th style="text-align:right; padding:8px 10px; font-family:var(--font-heading); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:rgba(240,244,248,.55); border-bottom:1px solid rgba(240,244,248,.16)">Adjusted</sc-raw-th>
-                  <sc-raw-th style="text-align:right; padding:8px 10px; font-family:var(--font-heading); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:rgba(240,244,248,.55); border-bottom:1px solid rgba(240,244,248,.16)">Match</sc-raw-th>
+                <sc-raw-tr style="background:#f7f8fa">
+                  <sc-raw-th style="text-align:left; padding:8px 10px; font-family:var(--font-heading); font-size:10.5px; letter-spacing: .01em; color:#7b8592; border-bottom:1px solid #e5e8ee">ID</sc-raw-th>
+                  <sc-raw-th style="text-align:right; padding:8px 10px; font-family:var(--font-heading); font-size:10.5px; letter-spacing: .01em; color:#7b8592; border-bottom:1px solid #e5e8ee">Mileage</sc-raw-th>
+                  <sc-raw-th style="text-align:left; padding:8px 10px; font-family:var(--font-heading); font-size:10.5px; letter-spacing: .01em; color:#7b8592; border-bottom:1px solid #e5e8ee">Seller</sc-raw-th>
+                  <sc-raw-th style="text-align:left; padding:8px 10px; font-family:var(--font-heading); font-size:10.5px; letter-spacing: .01em; color:#7b8592; border-bottom:1px solid #e5e8ee">History</sc-raw-th>
+                  <sc-raw-th style="text-align:right; padding:8px 10px; font-family:var(--font-heading); font-size:10.5px; letter-spacing: .01em; color:#7b8592; border-bottom:1px solid #e5e8ee">Listed</sc-raw-th>
+                  <sc-raw-th style="text-align:right; padding:8px 10px; font-family:var(--font-heading); font-size:10.5px; letter-spacing: .01em; color:#7b8592; border-bottom:1px solid #e5e8ee">Adjusted</sc-raw-th>
+                  <sc-raw-th style="text-align:right; padding:8px 10px; font-family:var(--font-heading); font-size:10.5px; letter-spacing: .01em; color:#7b8592; border-bottom:1px solid #e5e8ee">Match</sc-raw-th>
                 </sc-raw-tr>
               </sc-raw-thead>
               <sc-raw-tbody>
                 <sc-for list="{{ tableRows }}" as="r" hint-placeholder-count="10">
                   <sc-raw-tr style="{{ r.rowStyle }}">
-                    <sc-raw-td style="padding:7px 10px; font-family:var(--font-heading); color:#ffffff">{{ r.id }}</sc-raw-td>
+                    <sc-raw-td style="padding:7px 10px; font-family:var(--font-heading); color:#3d6d99">{{ r.id }}</sc-raw-td>
                     <sc-raw-td style="padding:7px 10px; text-align:right">{{ r.mi }}</sc-raw-td>
                     <sc-raw-td style="padding:7px 10px">{{ r.seller }}</sc-raw-td>
-                    <sc-raw-td style="padding:7px 10px; color:rgba(240,244,248,.6)">{{ r.hist }}</sc-raw-td>
+                    <sc-raw-td style="padding:7px 10px; color:#4a5461">{{ r.hist }}</sc-raw-td>
                     <sc-raw-td style="padding:7px 10px; text-align:right">{{ r.pub }}</sc-raw-td>
                     <sc-raw-td style="padding:7px 10px; text-align:right; font-family:var(--font-heading); font-size:14px">{{ r.adj }}</sc-raw-td>
-                    <sc-raw-td style="padding:7px 10px; text-align:right; color:rgba(240,244,248,.6)">{{ r.sim }}</sc-raw-td>
+                    <sc-raw-td style="padding:7px 10px; text-align:right; color:#4a5461">{{ r.sim }}</sc-raw-td>
                   </sc-raw-tr>
                 </sc-for>
               </sc-raw-tbody>
             </sc-raw-table>
           </div>
           </sc-if>
-          <span style="font-size:12.5px; color:rgba(240,244,248,.55)">In the delivered Excel, every row carries its link, the date it was pulled and the weight it had in the calculation. You can change the assumptions and recalculate yourself.</span>
+          <span style="font-size:12.5px; color:#7b8592">In the delivered Excel, every row carries its link, the date it was pulled and the weight it had in the calculation. You can change the assumptions and recalculate yourself.</span>
         </div>
       </div>
     </sc-if>
   </section>
 
-  <section id="precio" style="background:rgba(240,244,248,.05); padding:76px 32px">
-    <div style="max-width:1200px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(360px,1fr)); gap:0; border:1px solid rgba(240,244,248,.16); background:rgba(13,16,19,.74)">
-      <div style="padding:clamp(28px,3.4vw,48px); display:flex; flex-direction:column; gap:20px; border-right:1px solid rgba(240,244,248,.16)">
-        <span style="font-family:var(--font-heading); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#ffffff">One plan</span>
+  <section id="precio" style="background:#f7f8fa; padding:76px 32px; border-radius:14px">
+    <div style="max-width:1200px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(360px,1fr)); gap:0; border:1px solid #e5e8ee; background:#f7f8fa">
+      <div style="padding:clamp(28px,3.4vw,48px); display:flex; flex-direction:column; gap:20px; border-right:1px solid #e5e8ee">
+        <span style="font-family:var(--font-heading); font-size:12px; letter-spacing: .01em; color:#3d6d99">One plan</span>
         <div style="display:flex; align-items:baseline; gap:10px">
           <span style="font-family:var(--font-heading); font-weight:600; font-size:clamp(48px,5.6vw,74px); line-height:1; letter-spacing:-.02em">$30</span>
-          <span style="font-family:var(--font-heading); font-size:22px; color:rgba(240,244,248,.55)">USD</span>
+          <span style="font-family:var(--font-heading); font-size:22px; color:#7b8592">USD</span>
         </div>
-        <span style="font-size:15px; color:rgba(240,244,248,.6)">Per vehicle. No subscription. One-time payment.</span>
+        <span style="font-size:15px; color:#4a5461">Per vehicle. No subscription. One-time payment.</span>
         <div style="display:flex; flex-direction:column; gap:11px; padding-top:8px">
-          <a href="#pedir" style="font-family:var(--font-heading); font-weight:600; font-size:16px; letter-spacing:.06em; text-transform:uppercase; color:#0a0c0e; background:#ffffff; padding:15px 22px; text-align:center" style-hover="background:#c9cdd1">Pay and order the report</a>
-          <a href="#pedir" style="font-family:var(--font-heading); font-weight:600; font-size:16px; letter-spacing:.06em; text-transform:uppercase; color:#eef2f6; border:1px solid #eef2f6; padding:15px 22px; text-align:center" style-hover="background:rgba(240,244,248,.06)">Talk first on WhatsApp</a>
-          <span style="font-size:12.5px; color:rgba(240,244,248,.5); text-align:center">Card payment. Support 24/7.</span>
+          <a href="#pedir" style="font-family:var(--font-heading); font-weight:600; font-size:16px; letter-spacing: .01em; color:#ffffff; background:#3d6d99; padding:15px 22px; text-align:center; border-radius:999px" style-hover="background:#28506f">Pay and order the report</a>
+          <a href="#pedir" style="font-family:var(--font-heading); font-weight:600; font-size:16px; letter-spacing: .01em; color:#0a0e14; background:#ffffff; border:1px solid #d5dae2; border-radius:999px; padding:15px 22px; text-align:center" style-hover="background:#f7f8fa; border-color:#7b8592">Talk first on WhatsApp</a>
+          <span style="font-size:12.5px; color:#7b8592; text-align:center">Card payment. Support 24/7.</span>
         </div>
       </div>
       <div style="padding:clamp(28px,3.4vw,48px); display:flex; flex-direction:column; gap:0">
-        <span style="font-family:var(--font-heading); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:rgba(240,244,248,.5); padding-bottom:16px">Included</span>
-        <div style="display:flex; gap:14px; padding:13px 0; border-top:1px solid rgba(240,244,248,.12)"><span style="font-family:var(--font-heading); font-size:15px; color:#ffffff; width:26px">01</span><div style="display:flex; flex-direction:column"><span style="font-family:var(--font-heading); font-size:18px">One-page PDF summary</span><span style="font-size:13.5px; color:rgba(240,244,248,.6)">The dashboard: value, range, what to list at and what the market is doing.</span></div></div>
-        <div style="display:flex; gap:14px; padding:13px 0; border-top:1px solid rgba(240,244,248,.12)"><span style="font-family:var(--font-heading); font-size:15px; color:#ffffff; width:26px">02</span><div style="display:flex; flex-direction:column"><span style="font-family:var(--font-heading); font-size:18px">6-sheet Excel</span><span style="font-size:13.5px; color:rgba(240,244,248,.6)">Comparables, coefficients, statistics and sources with links.</span></div></div>
-        <div style="display:flex; gap:14px; padding:13px 0; border-top:1px solid rgba(240,244,248,.12)"><span style="font-family:var(--font-heading); font-size:15px; color:#ffffff; width:26px">03</span><div style="display:flex; flex-direction:column"><span style="font-family:var(--font-heading); font-size:18px">Real listings, dated</span><span style="font-size:13.5px; color:rgba(240,244,248,.6)">Every comparable is verifiable. If a site was unreachable, we say so.</span></div></div>
-        <div style="display:flex; gap:14px; padding:13px 0; border-top:1px solid rgba(240,244,248,.12)"><span style="font-family:var(--font-heading); font-size:15px; color:#ffffff; width:26px">04</span><div style="display:flex; flex-direction:column"><span style="font-family:var(--font-heading); font-size:18px">Same-day delivery</span><span style="font-size:13.5px; color:rgba(240,244,248,.6)">By email and WhatsApp, with the limits of the analysis in writing.</span></div></div>
-        <div style="display:flex; gap:14px; padding:13px 0; border-top:1px solid rgba(240,244,248,.12)"><span style="font-family:var(--font-heading); font-size:15px; color:#ffffff; width:26px">05</span><div style="display:flex; flex-direction:column"><span style="font-family:var(--font-heading); font-size:18px">Cars, trucks, SUVs, bikes and classics</span><span style="font-size:13.5px; color:rgba(240,244,248,.6)">Company fleets and cars being imported to Colombia too.</span></div></div>
+        <span style="font-family:var(--font-heading); font-size:12px; letter-spacing: .01em; color:#7b8592; padding-bottom:16px">Included</span>
+        <div style="display:flex; gap:14px; padding:13px 0; border-top:1px solid #eef1f5"><span style="font-family:var(--font-heading); font-size:15px; color:#3d6d99; width:26px">01</span><div style="display:flex; flex-direction:column"><span style="font-family:var(--font-heading); font-size:18px">One-page PDF summary</span><span style="font-size:13.5px; color:#4a5461">The dashboard: value, range, what to list at and what the market is doing.</span></div></div>
+        <div style="display:flex; gap:14px; padding:13px 0; border-top:1px solid #eef1f5"><span style="font-family:var(--font-heading); font-size:15px; color:#3d6d99; width:26px">02</span><div style="display:flex; flex-direction:column"><span style="font-family:var(--font-heading); font-size:18px">6-sheet Excel</span><span style="font-size:13.5px; color:#4a5461">Comparables, coefficients, statistics and sources with links.</span></div></div>
+        <div style="display:flex; gap:14px; padding:13px 0; border-top:1px solid #eef1f5"><span style="font-family:var(--font-heading); font-size:15px; color:#3d6d99; width:26px">03</span><div style="display:flex; flex-direction:column"><span style="font-family:var(--font-heading); font-size:18px">Real listings, dated</span><span style="font-size:13.5px; color:#4a5461">Every comparable is verifiable. If a site was unreachable, we say so.</span></div></div>
+        <div style="display:flex; gap:14px; padding:13px 0; border-top:1px solid #eef1f5"><span style="font-family:var(--font-heading); font-size:15px; color:#3d6d99; width:26px">04</span><div style="display:flex; flex-direction:column"><span style="font-family:var(--font-heading); font-size:18px">Same-day delivery</span><span style="font-size:13.5px; color:#4a5461">By email and WhatsApp, with the limits of the analysis in writing.</span></div></div>
+        <div style="display:flex; gap:14px; padding:13px 0; border-top:1px solid #eef1f5"><span style="font-family:var(--font-heading); font-size:15px; color:#3d6d99; width:26px">05</span><div style="display:flex; flex-direction:column"><span style="font-family:var(--font-heading); font-size:18px">Cars, trucks, SUVs, bikes and classics</span><span style="font-size:13.5px; color:#4a5461">Company fleets and cars being imported to Colombia too.</span></div></div>
       </div>
     </div>
   </section>
 
   <section id="pedir" style="max-width:1200px; margin:0 auto; padding:76px 32px 90px">
     <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:30px">
-      <span style="font-family:var(--font-heading); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#ffffff">Order the valuation</span>
+      <span style="font-family:var(--font-heading); font-size:12px; letter-spacing: .01em; color:#3d6d99">Order the valuation</span>
       <h2 style="font-family:var(--font-heading); font-weight:600; font-size:clamp(32px,3.6vw,44px); line-height:1; margin:0">Tell us about the car. We answer today.</h2>
     </div>
     <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:36px; align-items:start">
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px">
         <label style="display:flex; flex-direction:column; gap:6px; grid-column:span 2">
-          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.6)">Make, model and year</span>
-          <input value="{{ f_model }}" sc-camel-on-change="{{ onModel }}" sc-camel-on-input="{{ onModel }}" placeholder="Toyota 4Runner 2019" style="font-family:var(--font-body); font-size:15px; padding:11px 12px; border:1px solid rgba(240,244,248,.25); background:rgba(13,16,19,.74); color:#eef2f6" style-focus="border-color:#ffffff">
+          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#4a5461">Make, model and year</span>
+          <input value="{{ f_model }}" sc-camel-on-change="{{ onModel }}" sc-camel-on-input="{{ onModel }}" placeholder="Toyota 4Runner 2019" style="font-family:var(--font-body); font-size:15px; padding:11px 12px; border:1px solid #e5e8ee; background:#f7f8fa; color:#0a0e14; border-radius:14px" style-focus="border-color:#ffffff">
         </label>
         <label style="display:flex; flex-direction:column; gap:6px">
-          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.6)">Trim</span>
-          <input value="{{ f_trim }}" sc-camel-on-change="{{ onTrim }}" sc-camel-on-input="{{ onTrim }}" placeholder="TRD Off-Road" style="font-family:var(--font-body); font-size:15px; padding:11px 12px; border:1px solid rgba(240,244,248,.25); background:rgba(13,16,19,.74); color:#eef2f6" style-focus="border-color:#ffffff">
+          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#4a5461">Trim</span>
+          <input value="{{ f_trim }}" sc-camel-on-change="{{ onTrim }}" sc-camel-on-input="{{ onTrim }}" placeholder="TRD Off-Road" style="font-family:var(--font-body); font-size:15px; padding:11px 12px; border:1px solid #e5e8ee; background:#f7f8fa; color:#0a0e14; border-radius:14px" style-focus="border-color:#ffffff">
         </label>
         <label style="display:flex; flex-direction:column; gap:6px">
-          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.6)">Mileage</span>
-          <input value="{{ f_km }}" sc-camel-on-change="{{ onKm }}" sc-camel-on-input="{{ onKm }}" placeholder="62,000 mi" style="font-family:var(--font-body); font-size:15px; padding:11px 12px; border:1px solid rgba(240,244,248,.25); background:rgba(13,16,19,.74); color:#eef2f6" style-focus="border-color:#ffffff">
+          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#4a5461">Mileage</span>
+          <input value="{{ f_km }}" sc-camel-on-change="{{ onKm }}" sc-camel-on-input="{{ onKm }}" placeholder="62,000 mi" style="font-family:var(--font-body); font-size:15px; padding:11px 12px; border:1px solid #e5e8ee; background:#f7f8fa; color:#0a0e14; border-radius:14px" style-focus="border-color:#ffffff">
         </label>
         <label style="display:flex; flex-direction:column; gap:6px; grid-column:span 2">
-          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.6)">City and state</span>
-          <input value="{{ f_city }}" sc-camel-on-change="{{ onCity }}" sc-camel-on-input="{{ onCity }}" placeholder="Austin, TX" style="font-family:var(--font-body); font-size:15px; padding:11px 12px; border:1px solid rgba(240,244,248,.25); background:rgba(13,16,19,.74); color:#eef2f6" style-focus="border-color:#ffffff">
+          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#4a5461">City and state</span>
+          <input value="{{ f_city }}" sc-camel-on-change="{{ onCity }}" sc-camel-on-input="{{ onCity }}" placeholder="Austin, TX" style="font-family:var(--font-body); font-size:15px; padding:11px 12px; border:1px solid #e5e8ee; background:#f7f8fa; color:#0a0e14; border-radius:14px" style-focus="border-color:#ffffff">
         </label>
         <div style="display:flex; flex-direction:column; gap:7px">
-          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.6)">Condition</span>
-          <div style="display:flex; border:1px solid rgba(240,244,248,.2)">
+          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#4a5461">Condition</span>
+          <div style="display:flex; border:1px solid #e5e8ee">
             <sc-for list="{{ condOpts }}" as="o" hint-placeholder-count="3">
               <button sc-camel-on-click="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
             </sc-for>
           </div>
         </div>
         <div style="display:flex; flex-direction:column; gap:7px">
-          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.6)">Accidents reported</span>
-          <div style="display:flex; border:1px solid rgba(240,244,248,.2)">
+          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#4a5461">Accidents reported</span>
+          <div style="display:flex; border:1px solid #e5e8ee">
             <sc-for list="{{ accOpts }}" as="o" hint-placeholder-count="4">
               <button sc-camel-on-click="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
             </sc-for>
           </div>
         </div>
         <div style="display:flex; flex-direction:column; gap:7px">
-          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.6)">Modifications</span>
-          <div style="display:flex; border:1px solid rgba(240,244,248,.2)">
+          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#4a5461">Modifications</span>
+          <div style="display:flex; border:1px solid #e5e8ee">
             <sc-for list="{{ modOpts }}" as="o" hint-placeholder-count="2">
               <button sc-camel-on-click="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
             </sc-for>
           </div>
         </div>
         <div style="display:flex; flex-direction:column; gap:7px">
-          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.6)">What you need it for</span>
-          <div style="display:flex; border:1px solid rgba(240,244,248,.2)">
+          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#4a5461">What you need it for</span>
+          <div style="display:flex; border:1px solid #e5e8ee">
             <sc-for list="{{ purpOpts }}" as="o" hint-placeholder-count="4">
               <button sc-camel-on-click="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
             </sc-for>
@@ -1074,45 +1103,45 @@ textarea.input { min-height: 90px; resize: vertical; }
       </div>
 
       <div style="display:flex; flex-direction:column; gap:16px">
-        <div style="background:rgba(6,8,10,.66); border:1px solid rgba(240,244,248,.16); padding:22px; display:flex; flex-direction:column; gap:14px">
+        <div style="background:#f7f8fa; border:1px solid #e5e8ee; padding:22px; display:flex; flex-direction:column; gap:14px; border-radius:14px">
           <div style="display:flex; align-items:center; gap:9px">
-            <svg sc-camel-view-box="0 0 24 24" width="17" height="17" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.5"><path d="M21 11.5a8.4 8.4 0 0 1-12.6 7.3L3 20.5l1.7-5.4A8.4 8.4 0 1 1 21 11.5z"></path></svg>
-            <span style="font-family:var(--font-heading); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.6)">Your message, ready to send</span>
+            <svg sc-camel-view-box="0 0 24 24" width="17" height="17" fill="none" stroke="#3d6d99" stroke-width="1.5"><path d="M21 11.5a8.4 8.4 0 0 1-12.6 7.3L3 20.5l1.7-5.4A8.4 8.4 0 1 1 21 11.5z"></path></svg>
+            <span style="font-family:var(--font-heading); font-size:12px; letter-spacing: .01em; color:#4a5461">Your message, ready to send</span>
           </div>
-          <div style="background:rgba(13,16,19,.74); padding:15px 17px; font-size:14px; line-height:1.6; color:#eef2f6; white-space:pre-line; min-height:150px">{{ waMessage }}</div>
-          <a href="{{ waLink }}" target="_blank" style="font-family:var(--font-heading); font-weight:600; font-size:15px; letter-spacing:.06em; text-transform:uppercase; color:#eef2f6; background:rgba(13,16,19,.74); padding:14px 18px; text-align:center" style-hover="background:#ffffff">Send on WhatsApp</a>
-          <a href="{{ payLink }}" style="font-family:var(--font-heading); font-weight:600; font-size:15px; letter-spacing:.06em; text-transform:uppercase; color:#0a0c0e; background:#ffffff; padding:14px 18px; text-align:center" style-hover="background:#c9cdd1">Or pay $30 and send it</a>
+          <div style="background:#f7f8fa; padding:15px 17px; font-size:14px; line-height:1.6; color:#0a0e14; white-space:pre-line; min-height:150px; border-radius:14px">{{ waMessage }}</div>
+          <a href="{{ waLink }}" target="_blank" style="font-family:var(--font-heading); font-weight:600; font-size:15px; letter-spacing: .01em; color:#0a0e14; background:#ffffff; border:1px solid #d5dae2; padding:14px 18px; text-align:center; border-radius:999px" style-hover="background:#f7f8fa; border-color:#7b8592">Send on WhatsApp</a>
+          <a href="{{ payLink }}" style="font-family:var(--font-heading); font-weight:600; font-size:15px; letter-spacing: .01em; color:#ffffff; background:#3d6d99; padding:14px 18px; text-align:center; border-radius:999px" style-hover="background:#28506f">Or pay $30 and send it</a>
         </div>
-        <div style="border:1px solid rgba(240,244,248,.16); padding:18px 20px; display:flex; flex-direction:column; gap:8px">
-          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(240,244,248,.5)">What we do NOT do</span>
-          <span style="font-size:13.5px; line-height:1.5; color:rgba(240,244,248,.7)">This is not a legal appraisal or an official valuation. We work with published asking prices, not confirmed transactions, and we always state the margin of error.</span>
+        <div style="border:1px solid #e5e8ee; padding:18px 20px; display:flex; flex-direction:column; gap:8px">
+          <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#7b8592">What we do NOT do</span>
+          <span style="font-size:13.5px; line-height:1.5; color:#4a5461">This is not a legal appraisal or an official valuation. We work with published asking prices, not confirmed transactions, and we always state the margin of error.</span>
         </div>
       </div>
     </div>
   </section>
 
-  <footer style="background:rgba(6,8,10,.66); color:#f4f7fa; padding:52px 32px 40px">
+  <footer style="background:#f7f8fa; color:#0a0e14; padding:52px 32px 40px; border-radius:14px">
     <div style="max-width:1200px; margin:0 auto; display:flex; flex-wrap:wrap; gap:40px; align-items:flex-start">
       <div style="display:flex; flex-direction:column; gap:12px; margin-right:auto">
         <div style="display:flex; align-items:center; gap:11px">
-          <svg sc-camel-view-box="0 0 32 32" style="width:24px; height:24px"><g stroke="#fff" stroke-width="3"><line x1="4" y1="8" x2="4" y2="24"></line><line x1="28" y1="8" x2="28" y2="24"></line><line x1="4" y1="16" x2="28" y2="16"></line></g><rect x="13" y="10" width="6" height="12" fill="#ffffff"></rect></svg>
-          <span style="font-family:var(--font-heading); font-weight:600; font-size:19px; white-space:nowrap">Car price<span style="color:#ffffff">.AI</span></span>
+          <svg sc-camel-view-box="0 0 32 32" style="width:24px; height:24px"><g stroke="#3d6d99" stroke-width="3"><line x1="4" y1="8" x2="4" y2="24"></line><line x1="28" y1="8" x2="28" y2="24"></line><line x1="4" y1="16" x2="28" y2="16"></line></g><rect x="13" y="10" width="6" height="12" fill="#3d6d99"></rect></svg>
+          <span style="font-family:var(--font-heading); font-weight:600; font-size:19px; white-space:nowrap">Car price<span style="color:#3d6d99">.AI</span></span>
         </div>
-        <span style="font-size:13.5px; color:rgba(255,255,255,.6); max-width:40ch">Used-vehicle valuation from real market comparables. United States and Colombia.</span>
+        <span style="font-size:13.5px; color:#4a5461; max-width:40ch">Used-vehicle valuation from real market comparables. United States and Colombia.</span>
       </div>
       <div style="display:flex; flex-direction:column; gap:7px">
-        <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.45)">Contact</span>
+        <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#7b8592">Contact</span>
         <span style="font-size:14px">WhatsApp +1 · to be defined</span>
         <span style="font-size:14px">hello@carprice.ai · to be defined</span>
-        <span style="font-size:14px; color:rgba(255,255,255,.6)">Support 24/7</span>
+        <span style="font-size:14px; color:#4a5461">Support 24/7</span>
       </div>
       <div style="display:flex; flex-direction:column; gap:7px">
-        <span style="font-family:var(--font-heading); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.45)">Markets</span>
+        <span style="font-family:var(--font-heading); font-size:11px; letter-spacing: .01em; color:#7b8592">Markets</span>
         <span style="font-size:14px">United States · $30 USD</span>
-        <a href="/" style="font-size:14px; color:#ffffff">Colombia · en español</a>
+        <a href="/" style="font-size:14px; color:#3d6d99">Colombia · en español</a>
       </div>
     </div>
-    <div style="max-width:1200px; margin:26px auto 0; padding-top:18px; border-top:1px solid rgba(255,255,255,.16); font-size:12px; color:rgba(255,255,255,.45)">The data on this page comes from a real report delivered on August 19, 2026. Estimates for informational purposes.</div>
+    <div style="max-width:1200px; margin:26px auto 0; padding-top:18px; border-top:1px solid #e5e8ee; font-size:12px; color:#7b8592">The data on this page comes from a real report delivered on August 19, 2026. Estimates for informational purposes.</div>
   </footer>
 </div>
 
@@ -1136,13 +1165,13 @@ class Component extends DCLogic {
 
   usd(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
   seg(active, dark) {
-    const on = dark ? "background:rgba(13,16,19,.74); color:#eef2f6" : "background:#ffffff; color:#0a0c0e";
-    const off = dark ? "background:transparent; color:rgba(255,255,255,.7)" : "background:transparent; color:#eef2f6";
-    return "font-family:var(--font-heading); font-weight:600; font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; padding:9px 13px; border:0; cursor:pointer; white-space:nowrap;" + (active ? on : off) + ";";
+    const on = "background:#3d6d99; color:#ffffff";
+    const off = "background:transparent; color:#4a5461";
+    return "font-family:var(--font-heading); font-weight:500; font-size:13.5px; letter-spacing:-.01em; padding:9px 15px; border:0; border-radius:999px; cursor:pointer; white-space:nowrap;" + (active ? on : off) + ";";
   }
   pageBtn(active, open) {
-    return "display:flex; flex-direction:column; gap:2px; padding:11px 12px; cursor:pointer; text-align:left; background:" +
-      (active ? "rgba(255,255,255,.16)" : "rgba(13,16,19,.74)") + "; border:1px solid " + (active ? "#ffffff" : "rgba(240,244,248,.18)") +
+    return "display:flex; flex-direction:column; gap:2px; padding:11px 12px; cursor:pointer; text-align:left; border-radius:10px; background:" +
+      (active ? "#e9f1f8" : "#ffffff") + "; border:1px solid " + (active ? "#3d6d99" : "#e5e8ee") +
       "; opacity:" + (open ? "1" : ".72");
   }
   pick(key, i) { return () => this.setState({ [key]: i }); }
@@ -1166,7 +1195,7 @@ class Component extends DCLogic {
     const yTicks = [0, 1, 2, 3].map(i => {
       const v = lo + (hi - lo) * (i / 3);
       return { gy: yFor(v), label: "$" + Math.round(v / 1000) + "k",
-        labelStyle: "position:absolute; left:0; width:6.2%; text-align:right; top:" + (yFor(v) / 400 * 100) + "%; transform:translateY(-50%); font-family:var(--font-heading); font-size:13px; letter-spacing:.06em; color:rgba(255,255,255,.45); pointer-events:none" };
+        labelStyle: "position:absolute; left:0; width:6.2%; text-align:right; top:" + (yFor(v) / 400 * 100) + "%; transform:translateY(-50%); font-family:var(--font-heading); font-size:13px; letter-spacing:.06em; color:#7b8592; pointer-events:none" };
     });
     const xFor = mi => 56 + ((mi - 20000) / 55000) * 634;
     const points = RAW.map((r, i) => ({
@@ -1180,7 +1209,7 @@ class Component extends DCLogic {
       tipId: "G" + h[0],
       tipPrice: this.usd(mode === "adj" ? h[3] : h[2]),
       tipMeta: h[1].toLocaleString("en-US") + " mi · " + (h[4] ? "Certified" : "Dealer") + " · " + (h[5] ? "history verified" : "no history report") + " · match " + h[6],
-      tipStyle: "position:absolute; left:" + (points[s.hover].x / 700 * 100) + "%; top:" + (points[s.hover].y / 400 * 100) + "%; transform:translate(14px,-50%); background:rgba(6,8,10,.92); border:1px solid #ffffff; padding:10px 13px; display:flex; flex-direction:column; gap:2px; pointer-events:none; min-width:190px"
+      tipStyle: "position:absolute; left:" + (points[s.hover].x / 700 * 100) + "%; top:" + (points[s.hover].y / 400 * 100) + "%; transform:translate(14px,-50%); background:#ffffff; border:1px solid #e5e8ee; border-radius:10px; box-shadow:0 2px 6px rgba(10,14,20,.06), 0 18px 44px rgba(10,14,20,.09); padding:10px 13px; display:flex; flex-direction:column; gap:2px; pointer-events:none; min-width:190px"
     } : { tipId: "", tipPrice: "", tipMeta: "", tipStyle: "display:none" };
 
     const isPdf = s.tab === "pdf";
@@ -1192,7 +1221,7 @@ class Component extends DCLogic {
       5: [["Marketability score", "66 / 100"], ["Estimated time to sell", "30 – 60 days"], ["Units competing (2023)", "72"], ["Listings that cut price", "12 of 12"], ["Average accumulated cut", "3.7% over 2.1 months"], ["Cost of waiting one month", "≈ $1,925"]],
       6: [["Cars.com", "26 listings with links"], ["CarGurus", "Not reachable · nothing invented"], ["Autotrader", "Not consulted"], ["Edmunds", "Not consulted"], ["Confidence penalty", "−12% for single source"]]
     };
-    const kvRows = (KV[s.sheet] || []).map((r, i) => ({ k: r[0], v: r[1], rowStyle: "border-bottom:1px solid rgba(240,244,248,.08);" + (i % 2 ? "background:rgba(240,244,248,.02)" : "") }));
+    const kvRows = (KV[s.sheet] || []).map((r, i) => ({ k: r[0], v: r[1], rowStyle: "border-bottom:1px solid #e5e8ee;" + (i % 2 ? "background:#f7f8fa" : "") }));
     const rows = (s.sheet === 3 ? RAW : RAW.slice(0, 8)).map((r, i) => ({
       id: "G" + r[0],
       mi: r[1].toLocaleString("en-US"),
@@ -1201,7 +1230,7 @@ class Component extends DCLogic {
       pub: this.usd(r[2]),
       adj: this.usd(r[3]),
       sim: r[6],
-      rowStyle: "border-bottom:1px solid rgba(240,244,248,.08);" + (i % 2 ? "background:rgba(240,244,248,.02)" : "")
+      rowStyle: "border-bottom:1px solid #e5e8ee;" + (i % 2 ? "background:#f7f8fa" : "")
     }));
 
     const conds = ["Excellent", "Good", "Fair"];
@@ -1225,7 +1254,7 @@ class Component extends DCLogic {
       demoHigh: this.usd(high),
       demoBlockX: blockX,
       demoTrend: s.seller === "part" ? "Private-party sale" : s.seller === "conc" ? "+9% is what a dealer asks" : "+13% is what a certified car asks",
-      demoTrendColor: s.seller === "part" ? "rgba(240,244,248,.5)" : "#ffffff",
+      demoTrendColor: s.seller === "part" ? "#7b8592" : "#ffffff",
       onMiles: e => this.setState({ miles: +e.target.value }),
       setPart: () => this.setState({ seller: "part" }),
       setConc: () => this.setState({ seller: "conc" }),
@@ -1288,18 +1317,18 @@ html, body { overflow-x: hidden !important; max-width: 100vw; }
 input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 26px;
   background: transparent; cursor: grab; margin: 0; }
 input[type="range"]:active { cursor: grabbing; }
-input[type="range"]::-webkit-slider-runnable-track { height: 3px; background: rgba(240,244,248,.28); }
-input[type="range"]::-moz-range-track { height: 3px; background: rgba(240,244,248,.28); }
+input[type="range"]::-webkit-slider-runnable-track { height: 3px; background: #e5e8ee; }
+input[type="range"]::-moz-range-track { height: 3px; background: #e5e8ee; }
 input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none;
-  width: 22px; height: 22px; margin-top: -10px; border-radius: 50%; background: #fff;
-  border: 0; box-shadow: 0 0 0 4px rgba(255,255,255,.14); }
+  width: 22px; height: 22px; margin-top: -10px; border-radius: 50%; background: #3d6d99;
+  border: 0; box-shadow: 0 0 0 4px rgba(61,109,153,.16); }
 input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%;
-  background: #fff; border: 0; box-shadow: 0 0 0 4px rgba(255,255,255,.14); }
-input[type="range"]:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+  background: #3d6d99; border: 0; box-shadow: 0 0 0 4px rgba(61,109,153,.16); }
+input[type="range"]:focus-visible { outline: 2px solid #3d6d99; outline-offset: 4px; }
 
 .vtc-pista { display: flex; align-items: center; gap: 7px; margin-top: 6px;
-  font-family: var(--font-heading); font-size: 11px; letter-spacing: .14em;
-  text-transform: uppercase; color: rgba(255,255,255,.75); }
+  font-family: var(--font-heading); font-size: 11px; letter-spacing:-.01em;
+   color: #4a5461; }
 .vtc-pista i { font-style: normal; animation: vtc-vaiven 1.9s ease-in-out infinite; }
 @keyframes vtc-vaiven { 0%,100% { transform: translateX(-3px) } 50% { transform: translateX(3px) } }
 @media (prefers-reduced-motion: reduce) { .vtc-pista i { animation: none } }
@@ -1319,7 +1348,7 @@ input[type="range"]:focus-visible { outline: 2px solid #fff; outline-offset: 4px
   h1 { font-size: 34px !important; line-height: 1.05 !important; }
   h2 { font-size: 26px !important; line-height: 1.08 !important; }
   /* filas de segmentos: que envuelvan en vez de desbordar */
-  [style*="display:flex"][style*="border:1px solid rgba(240,244,248,.2)"] { flex-wrap: wrap; }
+  [style*="display:flex"][style*="border:1px solid #e5e8ee"] { flex-wrap: wrap; }
   /* las gráficas anchas se desplazan dentro de su caja, no arrastran la página */
   .vtc-scroll-x { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
   .vtc-scroll-x > svg { min-width: 520px; }
@@ -1329,4 +1358,5 @@ input[type="range"]:focus-visible { outline: 2px solid #fff; outline-offset: 4px
 }
 </style>
 
+<script src="/carrito.js"></script>
 </body></html>
