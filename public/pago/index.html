@@ -52,7 +52,16 @@
   var q = new URLSearchParams(location.search);
   var orderId = q.get("bold-order-id") || q.get("orderId") || (function () { try { return localStorage.getItem("vca_last_order"); } catch (e) { return null; } })();
   var pill = document.getElementById("pill");
-  function cop(n) { return "$" + Number(n).toLocaleString("es-CO"); }
+  /* Si la orden vino del mercado US, el recibo se escribe en ingles y con el
+     codigo de moneda: "COP 93,000 (about US$30)". */
+  function cop(n, moneda, referencia) {
+    var esUS = String(moneda).toUpperCase() === "COP" && referencia && referencia.moneda;
+    if (esUS) {
+      return "COP " + new Intl.NumberFormat("en-US").format(Number(n)) +
+        " (about US$" + new Intl.NumberFormat("en-US").format(referencia.valor) + ")";
+    }
+    return "$" + Number(n).toLocaleString("es-CO");
+  }
   function set(id, v) { document.getElementById(id).textContent = v; }
   function wa(t) { document.getElementById("wa").href = "https://wa.me/" + WA + "?text=" + encodeURIComponent(t); }
 
@@ -74,7 +83,7 @@
         document.getElementById("detalle").style.display = "block";
         set("d-orden", o.orderId || orderId);
         set("d-desc", o.descripcion || "Informe de valoración");
-        set("d-monto", o.amount ? cop(o.amount) : "—");
+        set("d-monto", o.amount ? cop(o.amount, o.currency, o.referencia) : "—");
         set("d-estado", o.estado || "—");
         if (o.estado === "APPROVED") {
           pill.textContent = "Pago aprobado"; pill.className = "pill ok";

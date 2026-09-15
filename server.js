@@ -133,16 +133,18 @@ app.post("/api/checkout", asyncH(async (req, res) => {
       return res.status(503).json({ error: "La pasarela de pagos todavía no está configurada" });
     }
 
-    const { items, cliente, leadId, vehiculo } = req.body || {};
-    const { total, detalle, descripcion } = calcularOrden(items);
+    const { items, cliente, leadId, vehiculo, mercado } = req.body || {};
+    // El mercado lo pide el frontend: CO en el sitio en espanol, US en /en/.
+    // Los dos se cobran en pesos; US paga 93.000 y ve el equivalente en USD.
+    const { total, moneda: currency, mercado: mercadoClave, montoFirmado, referencia, detalle, descripcion } =
+      calcularOrden(items, mercado);
 
     if (!cliente || !cliente.email || !cliente.fullName) {
       return res.status(400).json({ error: "Faltan tus datos de contacto" });
     }
 
     const orderId = "VCA-" + Date.now().toString(36).toUpperCase() + "-" + crypto.randomBytes(3).toString("hex").toUpperCase();
-    const currency = "COP";
-    const amount = String(total);
+    const amount = montoFirmado; // el string exacto que se firma y que va a Bold
 
     const firma = integritySignature({ orderId, amount, currency, secretKey: BOLD_SECRET_KEY });
 
@@ -155,6 +157,8 @@ app.post("/api/checkout", asyncH(async (req, res) => {
       formToken: crypto.randomBytes(16).toString("hex"),
       amount: total,
       currency,
+      mercado: mercadoClave,
+      referencia,
       descripcion,
       detalle,
       cliente: {
@@ -170,8 +174,11 @@ app.post("/api/checkout", asyncH(async (req, res) => {
 
     res.json({
       orderId,
-      amount: total,
-      currency,
+      amount,          // el string exacto que se firma: "93000"
+      amountValue: total,
+      currency,        // siempre COP: Bold cobra en pesos
+      mercado: mercadoClave,
+      referencia,      // solo para mostrar. Nunca se cobra con esto.
       description: descripcion,
       integritySignature: firma,
       apiKey: BOLD_IDENTITY_KEY,
@@ -238,6 +245,8 @@ app.get("/api/orders/:orderId/status", asyncH(async (req, res) => {
     orderId,
     estado,
     amount: actual.amount || null,
+    currency: actual.currency || "COP",
+    referencia: actual.referencia || null,
     descripcion: actual.descripcion || null,
     planes: (actual.detalle || []).map((d) => d.plan),
     transactionId: actual.transactionId || null,

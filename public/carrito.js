@@ -8,11 +8,16 @@
 
   var WA_NUMBER = "573165017403";
   var EN = /^\/en\//.test(location.pathname);
+  /* Bold cobra en pesos, siempre. El sitio en ingles vende al mercado de
+     Estados Unidos a 93.000 COP (~US$30) y le muestra el equivalente en
+     dolares para que sepa que esperar en el extracto. El cobro es en COP. */
+  var MERCADO = EN ? "US" : "CO";
+  var USD_UNIT = 30;   // solo para mostrar. El cobro real sale del servidor.
   var PLAN = {
     clave: "informe",
     nombre: EN ? "Valuation report · 1 car" : "Informe de valoración · 1 carro",
     detalle: EN ? "PDF + 6-sheet Excel, same day" : "PDF + Excel de 6 hojas, el mismo día",
-    precio: 30000,
+    precio: EN ? 93000 : 30000,
     max: 10
   };
   var T = EN ? {
@@ -20,7 +25,7 @@
     verPlan: "Add a report", total: "Total", pagar: "Pay with Bold", wa: "Order on WhatsApp",
     fichaOk: "Car details attached to your order.", fichaFalta: "We still don't have your car's details.",
     fichaLink: "Fill them in now", fichaResto: "(2 minutes) or we ask for them right after payment.",
-    nota: "Secure payment processed by Bold: cards, PSE, Nequi and bank button.",
+    nota: "Secure payment processed by Bold. International credit and debit cards accepted; the charge is made in Colombian pesos (COP).",
     ultimo: "Last step before paying", sub: "We send the report and the receipt to these details.",
     nombre: "Full name", correo: "Email", tel: "WhatsApp", seguir: "Continue to payment",
     volver: "Back", preparando: "Preparing the payment…", quitar: "Remove one", agregar: "Add one",
@@ -42,7 +47,7 @@
   var CAMPOS = [
     ["modelo", EN ? "Make, model and year" : "Marca, modelo y año"],
     ["version", EN ? "Trim" : "Versión"],
-    ["km", EN ? "Mileage" : "Kilometraje"],
+    ["km", EN ? "Mileage (km)" : "Kilometraje"],
     ["ciudad", EN ? "City" : "Ciudad"],
     ["estado", EN ? "Condition" : "Estado general"],
     ["accidentes", EN ? "Reported accidents" : "Accidentes reportados"],
@@ -50,9 +55,21 @@
     ["uso", EN ? "Needed for" : "Para qué la necesita"]
   ];
 
+  /* En ingles el precio SIEMPRE se escribe con el codigo de moneda delante
+     ("COP 93,000"), nunca con un "$" suelto: un gringo lee "$93,000" como
+     noventa y tres mil dolares. */
   function cop(n) {
-    return EN ? "$" + new Intl.NumberFormat("en-US").format(n)
-              : "$" + new Intl.NumberFormat("es-CO").format(n);
+    if (EN) return "COP " + new Intl.NumberFormat("en-US").format(n);
+    return "$" + new Intl.NumberFormat("es-CO").format(n);
+  }
+  function usdAprox(unidades) {
+    return "US$" + new Intl.NumberFormat("en-US").format(USD_UNIT * unidades);
+  }
+  /* La linea que deja claro en que moneda sale el cargo. */
+  function avisoMoneda(unidades) {
+    if (!EN) return "";
+    return "Charged in Colombian pesos (COP) by Bold — about " + usdAprox(unidades) +
+           ". Your bank converts at its own rate and may add a foreign-transaction fee.";
   }
   function $(s, r) { return (r || document).querySelector(s); }
   function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
@@ -160,6 +177,7 @@
     </div>\
     <div class="vca-foot">\
       <div class="vca-total"><span class="lab">' + T.total + '</span><b id="vca-total">' + cop(0) + '</b></div>\
+      <p id="vca-moneda" class="vca-mini vca-oculto"></p>\
       <button type="button" id="vca-pay" class="vca-btn vca-btn-primary" style="padding:14px">' + T.pagar + '</button>\
       <a id="vca-wa" class="vca-btn vca-btn-ghost" style="padding:13px" target="_blank" rel="noopener" href="#">' + T.wa + '</a>\
       <p class="vca-mini">' + T.nota + '</p>\
@@ -256,7 +274,8 @@
       d.className = "vca-item";
       d.innerHTML =
         '<div class="vca-item-top"><b>' + PLAN.nombre + '</b><span>' + cop(PLAN.precio * cantidad) + '</span></div>' +
-        '<p class="vca-mini">' + PLAN.detalle + ' · ' + cop(PLAN.precio) + ' ' + T.unidad + '</p>' +
+        '<p class="vca-mini">' + PLAN.detalle + ' · ' + cop(PLAN.precio) + ' ' + T.unidad +
+          (EN ? ' (' + usdAprox(1) + ')' : '') + '</p>' +
         '<div class="vca-qty">' +
           '<button type="button" class="vca-btn vca-btn-ghost vca-ico" data-vca-menos aria-label="' + T.quitar + '">−</button>' +
           '<b>' + cantidad + '</b>' +
@@ -275,9 +294,15 @@
     }
 
     $("#vca-total").textContent = cop(PLAN.precio * cantidad);
+    var mon = $("#vca-moneda");
+    if (mon) {
+      mon.textContent = avisoMoneda(cantidad);
+      mon.classList.toggle("vca-oculto", !EN || cantidad === 0);
+    }
     $("#vca-pay").disabled = cantidad === 0;
     $("#vca-wa").href = wa(T.pedido + "\n· " + cantidad + " × " + PLAN.nombre +
-      "\n" + T.total + ": " + cop(PLAN.precio * cantidad) + (ficha ? "\n\n" + textoFicha(ficha) : ""));
+      "\n" + T.total + ": " + cop(PLAN.precio * cantidad) +
+      (EN ? " (about " + usdAprox(cantidad) + ")" : "") + (ficha ? "\n\n" + textoFicha(ficha) : ""));
   }
 
   function agregar(delta) {
@@ -312,7 +337,7 @@
     fetch("/api/checkout", {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        items: [{ plan: PLAN.clave, cantidad: cantidad }],
+        items: [{ plan: PLAN.clave, cantidad: cantidad }], mercado: MERCADO,
         cliente: cliente, leadId: leadId, vehiculo: ficha
       })
     })
@@ -331,7 +356,7 @@
           description: orden.description, redirectionUrl: orden.redirectionUrl,
           customerData: JSON.stringify({
             email: cliente.email, fullName: cliente.fullName,
-            phone: String(cliente.phone).replace(/[^0-9]/g, ""), dialCode: "+57"
+            phone: String(cliente.phone).replace(/[^0-9]/g, ""), dialCode: EN ? "+1" : "+57"
           }),
           renderMode: "embedded"
         });

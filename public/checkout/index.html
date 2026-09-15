@@ -72,7 +72,7 @@
         <div class="grid">
           <label class="full"><span id="t-modelo">Marca, modelo y año</span><input name="modelo" placeholder="Mazda CX-5 2019" required></label>
           <label><span id="t-version">Versión</span><input name="version" placeholder="Grand Touring LX"></label>
-          <label><span id="t-km">Kilometraje</span><input name="km" placeholder="78.000 km"></label>
+          <label><span id="t-km">Kilometraje</span><input name="km" id="i-km" placeholder="78.000 km"></label>
           <label><span id="t-ciudad">Ciudad</span><input name="ciudad" placeholder="Medellín"></label>
           <label><span id="t-placa">Placa (opcional)</span><input name="placa" placeholder="ABC123"></label>
           <div class="full"><label><span id="t-estado">Estado general</span></label>
@@ -101,6 +101,7 @@
         <span class="qty"><button type="button" data-q="-1" aria-label="menos">−</button><span id="cant">1</span><button type="button" data-q="1" aria-label="más">+</button></span>
       </div>
       <div class="total"><span id="t-total">Total</span><span id="total">$30.000</span></div>
+      <p id="aviso-moneda" class="nota" hidden></p>
       <button class="btn" type="submit" id="submit">Pagar con Bold</button>
       <a class="btn btn-ghost" id="wa" target="_blank" rel="noopener">Prefiero WhatsApp</a>
       <div class="err" id="error"></div>
@@ -113,10 +114,15 @@
 (function () {
   "use strict";
   var WA_NUMBER = "573165017403";
-  var PRECIO = 30000;
   var q = new URLSearchParams(location.search);
   var EN = q.get("lang") === "en";
   if (EN) document.documentElement.lang = "en";
+  /* Bold cobra en pesos, siempre. El checkout en ingles atiende al mercado de
+     Estados Unidos: 93.000 COP (~US$30), y le muestra el equivalente en
+     dolares. El cargo que ve el cliente en su banco es en COP. */
+  var MERCADO = EN ? "US" : "CO";
+  var PRECIO = EN ? 93000 : 30000;
+  var USD_UNIT = 30;   // solo para mostrar
 
   var T = {
     es: { h1:"Su informe de valoración", back:"← Volver",
@@ -132,13 +138,13 @@
       mods:["De fábrica","Con cambios"], purps:["Vender","Comprar","Seguro","Legal"],
       waMsg:"Hola, quiero una valoración de carro." },
     en: { h1:"Your valuation report", back:"← Back",
-      lead:"Confirm the car details and your contact information. Payment runs on Bold — card, PSE, Nequi or Bancolombia. You get the report the same day by email and WhatsApp.",
-      veh:"The vehicle", modelo:"Make, model and year", version:"Trim", km:"Mileage", ciudad:"City", placa:"Plate (optional)",
+      lead:"Confirm the car details and your contact information. You pay by international credit or debit card through Bold, our Colombian payment processor, so the charge appears in Colombian pesos (COP). You get the report the same day by email and WhatsApp.",
+      veh:"The vehicle", modelo:"Make, model and year", version:"Trim", km:"Mileage (km)", ciudad:"City", placa:"Plate (optional)",
       estado:"Overall condition", acc:"Accidents reported", mod:"Modifications", uso:"What you need it for",
       notas:"Anything else we should know (optional)", cont:"Your details", nombre:"Full name", email:"Email", tel:"WhatsApp",
       pedido:"Your order", plan:"Valuation report · 1 car", cant:"Number of cars", total:"Total",
       submit:"Pay with Bold", wa:"I'd rather use WhatsApp", prep:"Preparing payment…",
-      nota:"Secure payment processed by Bold. We never store your card details. If anything fails, message us on WhatsApp and we'll sort it out.",
+      nota:"Secure payment processed by Bold. We never store your card details. The charge shows up on your statement in Colombian pesos (COP) from a Colombian merchant. If anything fails, message us on WhatsApp and we'll sort it out.",
       faltan:"Please fill in make and model, your name, your email and your WhatsApp.",
       conds:["Excellent","Good","Fair"], accs:["None","1","2","3 or more"],
       mods:["Stock","Modified"], purps:["Sell","Buy","Insurance","Legal"],
@@ -146,14 +152,23 @@
   }[EN ? "en" : "es"];
 
   function $(s) { return document.querySelector(s); }
-  function cop(n) { return "$" + n.toLocaleString("es-CO"); }
+  /* En ingles el precio SIEMPRE lleva el codigo de moneda delante
+     ("COP 93,000"): un "$93,000" suelto se lee como dolares. */
+  function cop(n) {
+    if (EN) return "COP " + new Intl.NumberFormat("en-US").format(n);
+    return "$" + n.toLocaleString("es-CO");
+  }
+  function usdAprox(unidades) {
+    return "US$" + new Intl.NumberFormat("en-US").format(USD_UNIT * unidades);
+  }
   function setText(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
 
   ["h1","lead","veh","modelo","version","km","ciudad","placa","estado","acc","mod","uso","notas","cont","nombre",
    "email","tel","pedido","plan","cant","total","nota","back"].forEach(function (k) { setText("t-" + k, T[k]); });
   $("#submit").textContent = T.submit;
   $("#wa").textContent = T.wa;
-  setText("precio-unit", cop(PRECIO));
+  setText("precio-unit", cop(PRECIO) + (EN ? " (" + usdAprox(1) + ")" : ""));
+  if (EN) { var iKm = document.getElementById("i-km"); if (iKm) iKm.placeholder = "78,000 km"; }
 
   /* segmentos */
   var SEG = { estado: T.conds, accidentes: T.accs, modificaciones: T.mods, uso: T.purps };
@@ -187,6 +202,14 @@
   function pintarTotal() {
     setText("cant", String(cantidad));
     setText("total", cop(PRECIO * cantidad));
+    var av = document.getElementById("aviso-moneda");
+    if (av) {
+      av.hidden = !EN;
+      if (EN) {
+        av.textContent = "Charged in Colombian pesos (COP) by Bold — about " + usdAprox(cantidad) +
+          ". Your bank converts at its own rate and may add a foreign-transaction fee.";
+      }
+    }
   }
   document.querySelectorAll("[data-q]").forEach(function (b) {
     b.addEventListener("click", function () {
@@ -210,7 +233,7 @@
       T.modelo + ": " + (v.modelo || "—") + "\n" + T.version + ": " + (v.version || "—") + "\n" +
       T.km + ": " + (v.km || "—") + "\n" + T.ciudad + ": " + (v.ciudad || "—") + "\n" +
       T.estado + ": " + v.estado + " · " + v.accidentes + " · " + v.modificaciones + "\n" +
-      T.uso + ": " + v.uso + "\n" + T.cant + ": " + cantidad + "\n" + T.total + ": " + cop(PRECIO * cantidad);
+      T.uso + ": " + v.uso + "\n" + T.cant + ": " + cantidad + "\n" + T.total + ": " + cop(PRECIO * cantidad) + (EN ? " (about " + usdAprox(cantidad) + ")" : "");
   }
   function actualizarWa() { $("#wa").href = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(textoPedido()); }
   f.addEventListener("input", actualizarWa);
@@ -240,7 +263,7 @@
       .then(function (lead) {
         return fetch("/api/checkout", {
           method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ items: [{ plan: "informe", cantidad: cantidad }], cliente: contacto, leadId: (lead || {}).leadId || null, vehiculo: v })
+          body: JSON.stringify({ items: [{ plan: "informe", cantidad: cantidad }], mercado: MERCADO, cliente: contacto, leadId: (lead || {}).leadId || null, vehiculo: v })
         }).then(function (r) {
           return r.json().then(function (j) {
             if (!r.ok) throw new Error(j && j.error ? j.error : "No pudimos crear la orden");
@@ -255,7 +278,7 @@
           orderId: orden.orderId, currency: orden.currency, amount: String(orden.amount),
           apiKey: orden.apiKey, integritySignature: orden.integritySignature,
           description: orden.description, redirectionUrl: orden.redirectionUrl,
-          customerData: JSON.stringify({ email: contacto.email, fullName: contacto.fullName, phone: contacto.phone, dialCode: "+57" }),
+          customerData: JSON.stringify({ email: contacto.email, fullName: contacto.fullName, phone: contacto.phone, dialCode: EN ? "+1" : "+57" }),
           renderMode: "embedded"
         }).open();
       })
